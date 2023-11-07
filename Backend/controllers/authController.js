@@ -33,9 +33,6 @@ const registerUser = async (req, res) => {
   }
 };
 
-
-
-
 const loginUser = async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -64,13 +61,12 @@ const loginUser = async (req, res) => {
     }
 
     const token = JWT.sign({ id: user._id }, process.env.JWT_KEY, {expiresIn: "7d"});
-    console.log(token);
 
     const options = {
         expires: new Date(Date.now() + (30 * 24 * 60 * 60 * 1000)),
         httpOnly: true,
       };
-    res.status(201).cookie("token", token, options).json({success: true, massage: "Logged in successfully"});
+    res.status(201).cookie("token", token, options).json({success: true, user, massage: "Logged in successfully"});
   } catch (error) {
     res.status(500).json({ success: false, massage: error });
   }
