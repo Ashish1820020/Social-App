@@ -1,6 +1,6 @@
 const UserModel = require("../models/UsersModel");
 const bcrypt = require("bcrypt");
-const JWT = require("jsonwebtoken")
+const sendToken = require("../utils/sendToken");
 
 const registerUser = async (req, res) => {
   try {
@@ -33,40 +33,38 @@ const registerUser = async (req, res) => {
   }
 };
 
+
+
+
+
 const loginUser = async (req, res) => {
   try {
     const { email, password } = req.body;
 
     
     if (!email || !password){
-        return res
-        .status(401)
-        .json({ success: false, massage: "Invalid Email or password" });
+      return res
+      .status(401)
+      .json({ success: false, massage: "Invalid Email or password" });
     }
 
     let user = await UserModel.findOne({ email: email }).select("+password");
     
     
     if (!user){
-        return res
-        .status(401)
-        .json({ success: false, massage: "Either Email or password is wrong" });
+      return res
+      .status(401)
+      .json({ success: false, massage: "Either Email or password is wrong" });
     }
-        const isPasswordMatched = await bcrypt.compare(password, user.password);
+    
+    const isPasswordMatched = await bcrypt.compare(password, user.password);
 
     if (!isPasswordMatched){
-        return res
-        .status(401)
-        .json({ success: false, massage: "Either Email or password is wrong" });
+      return res.status(401).json({ success: false, massage: "Either Email or password is wrong" });
     }
 
-    const token = JWT.sign({ id: user._id }, process.env.JWT_KEY, {expiresIn: "7d"});
+    sendToken(user, 201, res);
 
-    const options = {
-        expires: new Date(Date.now() + (30 * 24 * 60 * 60 * 1000)),
-        httpOnly: true,
-      };
-    res.status(201).cookie("token", token, options).json({success: true, user, massage: "Logged in successfully"});
   } catch (error) {
     res.status(500).json({ success: false, massage: error });
   }

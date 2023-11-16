@@ -1,5 +1,6 @@
 const express = require("express");
 const bodyParser = require("body-parser");
+const cookieParser = require("cookie-parser");
 
 
 
@@ -13,6 +14,7 @@ if(process.env.NODE_ENV != "PRODUCTION"){
 
 // using middlewares
 app.use(express.json());
+app.use(cookieParser());
 app.use(express.urlencoded({extended: true}));
 
 

@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-
+const JWT = require("jsonwebtoken");
 
 const userSchema = mongoose.Schema({
     name:{
@@ -25,10 +25,12 @@ const userSchema = mongoose.Schema({
         select: false
     },
 
-    posts:{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Post"
-    },
+    posts: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "Post"
+        }
+    ],
 
     followers: [
         {
@@ -42,10 +44,13 @@ const userSchema = mongoose.Schema({
             type: mongoose.Schema.Types.ObjectId,
             ref: "User"
         }
-    ],
-
-    // timestamps: true 
+    ]
 });
+
+
+userSchema.methods.getJWTToken = function () {
+    return JWT.sign({ _id: this._id }, process.env.JWT_KEY, {expiresIn: "7d"});
+}
 
 
 module.exports = mongoose.model("Users", userSchema);
