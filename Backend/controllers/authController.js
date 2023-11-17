@@ -70,4 +70,60 @@ const loginUser = async (req, res) => {
   }
 };
 
-module.exports = { registerUser, loginUser };
+
+const logout = async (req, res, next) => {
+  res.cookie("token", null, {
+    expires: new Date(Date.now()),
+    httpOnly: true,
+  });
+
+  res.status(200).json({
+    success: true,
+    msg: "Logged Out",
+  });
+};
+
+
+
+const followUser = async (req, res) => {
+  try {
+    const userToFollow = await UserModel.findById(req.params.id);
+    const loggedInUser = await UserModel.findById(req.user._id);
+
+    
+    if (!userToFollow){
+      return res
+      .status(401)
+      .json({ success: false, massage: "User not found"});
+    }
+
+    if(loggedInUser.following.includes(userToFollow._id)){
+      let index = loggedInUser.following.indexOf(userToFollow._id);
+
+      loggedInUser.following.splice(index, 1);
+      
+      index = userToFollow.followers.indexOf(loggedInUser._id);
+      
+      userToFollow.followers.splice(index, 1);
+
+      await userToFollow.save();
+      await loggedInUser.save();
+
+      return res.status(401).json({ success: false, massage: "Un-follow successfully"})
+    }
+    
+    userToFollow.followers.push(loggedInUser._id);
+    loggedInUser.following.push(userToFollow._id);
+
+    await userToFollow.save();
+    await loggedInUser.save();
+
+    return res.status(401).json({ success: false, massage: "Following added successfully"});
+    
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ success: false, massage: error });
+  }
+};
+
+module.exports = { registerUser, loginUser, followUser, logout };

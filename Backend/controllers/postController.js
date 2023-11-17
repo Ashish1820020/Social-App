@@ -37,8 +37,6 @@ const updatePost = async (req, res) => {
         const { postId } = req.params;
         const {caption, image, likes, comments} = req.body;
 
-        console.log(req.body);
-
 
         const obj = {};
 
@@ -62,17 +60,41 @@ const updatePost = async (req, res) => {
 
 const deletePost = async (req, res) => {
     try {
-        const {postId} = req.params;
+        const { postId } = req.params;
 
         await PostModel.findByIdAndDelete(postId);
 
         const user = await UsersModel.findById(req.user._id);
 
         const index =  user.posts.indexOf(postId);
-        user.posts.Splice(index, 1);
+        console.log(index);
+
+        user.posts.splice(index, 1);
 
         res.status(300).json({success: true, massage: "Post is deleted successfully"});
     } catch (error) {
+        res.status(500).json({
+            success: false,
+            message: error.message,
+        })
+    }
+};
+
+
+const getPostsOfFollowing = async (req, res) => {
+    try {
+
+        const user = await UsersModel.findById(req.user._id)
+
+        const posts = await PostModel.find({
+            owner:{
+                $in: user.following
+            }
+        });
+
+        res.status(300).json({success: true, massage: "got posts successfully", posts});
+    } catch (error) {
+        console.log(error);
         res.status(500).json({
             success: false,
             message: error.message,
@@ -107,4 +129,4 @@ const likeAndUnlikePost = async (req, res, next) => {
     }
 }
 
-module.exports = {createNewPost, likeAndUnlikePost, updatePost, deletePost};
+module.exports = { createNewPost, likeAndUnlikePost, updatePost, deletePost, getPostsOfFollowing };
