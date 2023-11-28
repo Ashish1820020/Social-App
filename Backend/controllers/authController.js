@@ -1,6 +1,20 @@
 const UserModel = require("../models/UsersModel");
 const bcrypt = require("bcrypt");
 const sendToken = require("../utils/sendToken");
+const cloudinary = require("../utils/cloudinaryConfig");
+
+
+
+
+/**
+ * All the routes related to Auth are present here.
+ * */
+
+/**
+ * This handler handles user registration.
+ * send POST Request at /api/v1/auth/signup
+ * body contains {name, email, password}
+ * */
 
 const registerUser = async (req, res) => {
   try {
@@ -37,6 +51,13 @@ const registerUser = async (req, res) => {
 
 
 
+
+/**
+ * This handler handles user login.
+ * send GET Request at /api/v1/auth/login
+ * body contains {email, password}
+ * */
+
 const loginUser = async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -71,12 +92,61 @@ const loginUser = async (req, res) => {
 };
 
 
+
+
+
+/**
+ * This handler handles userProfile update.
+ * send PUT Request at /api/v1/auth/updateprofile
+ * body contains {name, email, avatar}
+ * */
+
+const updateProfile = async (req, res, next) => {
+  try {
+
+    const {name, email, avatar} = req.body;
+
+    let obj = {};
+
+    if(name) obj.name = name;
+    if(email) obj.name = email;
+    // if(avatar) {
+    //   cloudinary.uploader.upload()
+    // }
+
+    await UserModel.findByIdAndUpdate(req.user._id, obj);
+    const user = await UserModel.findById(req.user._id);
+
+    res.status(201).json({success: true, massage: "Profile updated successfully", user});
+
+    
+  } catch (error) {
+    console.log(error);
+    res.status(501).json({success: false, massage: "error occurred", error})
+  }
+};
+
+
+
+
+
+
+
+
+
+
+
+/**
+ * This handler handles user logout.
+ * send GET Request at /api/v1/auth/logout
+ * */
+
 const logout = async (req, res, next) => {
   res.cookie("token", null, {
     expires: new Date(Date.now()),
     httpOnly: true,
   });
-
+  
   res.status(200).json({
     success: true,
     msg: "Logged Out",
@@ -84,6 +154,54 @@ const logout = async (req, res, next) => {
 };
 
 
+
+
+/**
+ * This handler handles forgetting passwords.
+ * send PATCH Request at /api/v1/auth/forgotpassword
+ * body contains {oldPassword, newPassword1, newPassword2}
+ * */
+
+const forgotPassword = async (req, res, next) => {
+  try {
+
+    const {oldPassword, newPassword1, newPassword2} = req.body;
+
+    if(!oldPassword) return res.status(400).json({success: false, massage: "Enter your old Password"});
+
+    if(newPassword1 != newPassword2) return res.status(400).json({success: false, massage: "Password did not match"});
+
+    let user = await UserModel.findById(req.user._id).select("+password");
+
+    const isPasswordMatched = await bcrypt.compare(oldPassword, user.password);
+
+    if(!isPasswordMatched) return res.status(400).json({success: false, massage: "Wrong old password"});
+    
+
+    const encryptedPassword = await bcrypt.hash(newPassword1, 10);
+
+  
+    user.password = encryptedPassword;
+
+    await user.save();
+    
+
+    res.status(201).json({success: true, massage: "Profile updated successfully", user});
+
+    
+  } catch (error) {
+    console.log(error);
+    res.status(501).json({success: false, massage: "error occurred", error})
+  }
+};
+
+
+
+/**
+ * This handler handles user following or un-following other profiles.
+ * send PATCH Request at /api/v1/auth/follow/:id
+ * body contains {oldPassword, newPassword1, newPassword2}
+ * */
 
 const followUser = async (req, res) => {
   try {
@@ -126,4 +244,10 @@ const followUser = async (req, res) => {
   }
 };
 
-module.exports = { registerUser, loginUser, followUser, logout };
+
+
+
+
+
+
+module.exports = { registerUser, loginUser, followUser, logout, updateProfile, forgotPassword };
