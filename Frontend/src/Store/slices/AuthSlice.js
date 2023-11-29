@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-
+import { loginApi } from "../api/authApi";
 
 const initialState = {
     isLoading: false,
@@ -10,6 +10,8 @@ const initialState = {
     allUsers: "",
     isLoggedIn: false
 }
+
+
 
 
 const authSlice = createSlice({
@@ -51,8 +53,27 @@ const authSlice = createSlice({
                 isLoggedIn: false
             }
         }
+    },
+
+
+
+    extraReducers: (builder) => {
+        builder.addCase(loginApi.pending, (state, action) => {
+            state.isLoading = true;
+        });
+        builder.addCase(loginApi.fulfilled, (state, action) => {
+            state.isLoading = false;
+            state.isError = false;
+            state.userData = action.payload.user;
+        });
+        builder.addCase(loginApi.rejected, (state, action) => {
+            state.isError = true;
+        });
     }
 });
+
+
+
 
 export const {} = authSlice.actions;
 export default authSlice.reducer;

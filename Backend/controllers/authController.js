@@ -18,13 +18,20 @@ const cloudinary = require("../utils/cloudinaryConfig");
 
 const registerUser = async (req, res) => {
   try {
-    const { name, email, password } = req.body;
+    const { name, email, password, confirmPassword } = req.body;
     const avatar = req.file;
+
+    console.log(req.body);
+
+    if (password != confirmPassword)
+      return res
+        .status(400)
+        .json({ success: false, massage: "Password does not match" });
 
     let user = await UserModel.findOne({ email: email });
     if (user)
       return res
-        .status(300)
+        .status(400)
         .json({ success: false, massage: "User already exist" });
 
     const encryptedPassword = await bcrypt.hash(password, 10);
