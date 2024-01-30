@@ -18,37 +18,40 @@ const cloudinary = require("../utils/cloudinaryConfig");
 
 const registerUser = async (req, res) => {
   try {
+
+
     const { name, email, password, confirmPassword } = req.body;
     const avatar = req.file;
 
-    console.log(req.body);
-
-    if (password != confirmPassword)
+    if (password != confirmPassword){
       return res
         .status(400)
         .json({ success: false, massage: "Password does not match" });
+    }
 
     let user = await UserModel.findOne({ email: email });
-    if (user)
+
+    if (user){
       return res
         .status(400)
         .json({ success: false, massage: "User already exist" });
+    }
 
     const encryptedPassword = await bcrypt.hash(password, 10);
 
     const obj = { name, email, password: encryptedPassword };
 
     if (avatar) {
-      obj.avatar = {
-        public_id: "public",
-        url: "url",
-      };
+      const upload = await cloudinary.uploader.upload(avatar.path);
+      obj.avatar = upload.secure_url;
     }
 
+    console.log(obj);
+
     user = await UserModel.create(obj);
-    res
-      .status(201)
-      .json({ success: true, massage: "Registration successful", user });
+
+    sendToken(user, 201, res);
+    
   } catch (error) {
     res.status(500).json({ success: false, massage: error });
   }

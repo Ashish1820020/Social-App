@@ -11,7 +11,7 @@ const LoginForm = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(loginApi({email, password}))
+    dispatch(loginApi({email, password}));
   }
 
 

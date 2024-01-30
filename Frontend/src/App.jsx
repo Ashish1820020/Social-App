@@ -1,8 +1,8 @@
 // import { HomePage, ProFilePage, LoginPage } from "./Pages/index";
 import { useMemo } from "react";
-import HomePage from "./Pages/HomePage/index";
-import LoginPage from "./Pages/LoginPage/index";
-import ProfilePage from "./Pages/ProfilePage/index";
+import HomePage from "./Pages/Home";
+import LoginPage from "./Pages/LoginPage";
+import ProfilePage from "./Pages/ProfilePage";
 import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
 import { CssBaseline, createTheme } from "@mui/material";
 import { themeSettings } from "./themes";
@@ -23,16 +23,18 @@ const App = () => {
       <ThemeProvider theme={theme}>
         {/* Resetting css */}
         <CssBaseline />
-        {/* <Navbar /> */}
 
-        <Routes>
+        <div className="root-inside h-full w-full relative">
+          <Navbar />
 
+          <Routes>
 
-          <Route path="/" element={<LoginPage/>} />
-          <Route path="/home" element={<HomePage/>} />
-          <Route path="/profile/:userId" element={<ProfilePage/>} />
+            <Route path="/" element={<LoginPage/>} />
+            <Route path="/home" element={<HomePage/>} />
+            <Route path="/profile/:userId" element={<ProfilePage/>} />
 
-        </Routes>
+          </Routes>
+        </div>
       </ThemeProvider>
     </BrowserRouter>
   )

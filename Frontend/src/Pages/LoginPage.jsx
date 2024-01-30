@@ -1,9 +1,18 @@
-import { useState } from "react";
-import LoginForm from "../../Components/LoginOrSignUp/LoginForm";
-import SignupForm from "../../Components/LoginOrSignUp/SignupForm";
+import { useEffect, useState } from "react";
+import LoginForm from "../Components/LoginOrSignUp/LoginForm";
+import SignupForm from "../Components/LoginOrSignUp/SignupForm";
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 const LoginPage = () => {
     const [state, setState] = useState("login");
+
+    const { isLoggedIn, userData, isLoading } = useSelector(state => state.auth);
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        if (userData) navigate('/home');
+      }, [navigate, userData])
 
     return (
     <div className=" bg-white h-full md: mx-auto">
@@ -18,7 +27,6 @@ const LoginPage = () => {
 
         }
 
-{/* className="flex flex-col px-1 md:w-[550px] mx-auto p-4 my-10" */}
         <div className="flex flex-col px-1 md:w-[550px] mx-auto p-4 mb-10">
 
             <div className='flex gap-2 items-center justify-center my-5'>

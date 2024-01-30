@@ -8,8 +8,7 @@ const userSchema = mongoose.Schema({
     },
 
     avatar:{
-        public_id: String,
-        url: String
+        type: String
     }, 
 
     email:{

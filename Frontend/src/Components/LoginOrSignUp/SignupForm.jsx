@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { signupApi } from '../../Store/api/authApi';
+import axios from 'axios';
 
 
 
@@ -14,17 +15,17 @@ const SignupForm = () => {
   const dispatch = useDispatch();
 
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const signupForm = new FormData();
+    let signupForm = new FormData();
     signupForm.append("name", name);
     signupForm.append("email", email);
     signupForm.append("password", password);
     signupForm.append("confirmPassword", confirmPassword);
     signupForm.append("avatar", avatar);
 
-    dispatch(signupApi(signupForm))
+    dispatch(signupApi(signupForm));
   }
 
 
@@ -47,7 +48,7 @@ const SignupForm = () => {
         <input type="password" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} name="password" 
         className="h-8 outline-2 outline outline-blue-400 bg-gray-200 mb-4 rounded-sm"/>
     
-        <input type="file" accept="image/*" value={avatar} onChange={(e) => setAvatar(e.target.files[0])} name="avatar" 
+        <input type="file" accept="image/*" onChange={(e) => setAvatar(e.target.files[0])} name="avatar" 
         className=" bg-white border-2 border-solid border-gray-500 rounded-md mt-2"/>
 
         <button type='submit'onClick={handleSubmit} className="bg-blue-700 text-white text-lg mt-4 py-2 rounded-sm hover:bg-blue-500">Sign up</button>

@@ -1,14 +1,22 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { loginApi } from "../api/authApi";
+import { loginApi, signupApi } from "../api/authApi";
+
+const getUserData = () => {
+    const localUserData = localStorage.getItem("userData");
+
+    if(localUserData) return JSON.parse(localUserData);
+
+    return null;
+}
 
 const initialState = {
     isLoading: false,
     isError: false,
-    userData: {},
+    userData: getUserData(),
     lastLogin: "",
     lastUpdated: "",
     allUsers: "",
-    isLoggedIn: false
+    isLoggedIn: getUserData()? true : false
 }
 
 
@@ -18,42 +26,7 @@ const authSlice = createSlice({
 
     name: "Auth",
     initialState,
-    reducers: {
-        isLoading(state, action){
-            return {
-                ...state,
-                isLoading: true
-            }
-        },
-
-        isError(state, action){
-            return {
-                ...state,
-                isError: true
-            }
-        },
-
-        setLoggedIn(state, action){
-            return {
-                ...state, 
-                isLoading: false,
-                isError: false,
-                userData: action.payload,
-                lastLogin: Date.now(),
-                isLoggedIn: true
-            }
-        },
-
-        setLoggedOut(state, action){
-            return {
-                ...state, 
-                isLoading: false,
-                isError: false,
-                userData: {},
-                isLoggedIn: false
-            }
-        }
-    },
+    reducers: {},
 
 
 
@@ -65,9 +38,26 @@ const authSlice = createSlice({
             state.isLoading = false;
             state.isError = false;
             state.userData = action.payload.user;
+            state.isLoggedIn = true;
         });
         builder.addCase(loginApi.rejected, (state, action) => {
             state.isError = true;
+            state.isLoggedIn = false;
+        });
+
+        builder.addCase(signupApi.pending, (state, action) => {
+            state.isLoading = true;
+        });
+        builder.addCase(signupApi.fulfilled, (state, action) => {
+            state.isLoading = false;
+            state.isError = false;
+            state.userData = action.payload.user;
+            state.isLoggedIn = true;
+        });
+        builder.addCase(signupApi.rejected, (state, action) => {
+            state.isError = true;
+            state.isLoading = false;
+            state.isLoggedIn = false;
         });
     }
 });

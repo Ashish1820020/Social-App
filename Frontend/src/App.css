@@ -14,3 +14,9 @@ input[type=file]::file-selector-button {
     color: rgba(0, 0, 0, 0.623);
     background-color: rgb(255, 255, 255);
 }
+
+.icon-hover:hover,
+.button-hover:hover,
+.img-hover:hover{
+    cursor: pointer;
+}
