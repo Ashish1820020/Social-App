@@ -25,6 +25,6 @@ export const addNewPostApi = createAsyncThunk("addNewPost", async (myPost) => {
   })
   .catch((error) => {
     console.log(error);
-    return thunkAPI.rejectWithValue({ error: err.message })
+    // return thunkAPI.rejectWithValue({ error: err.message })
   })
 });
