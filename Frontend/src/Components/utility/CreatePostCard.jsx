@@ -20,8 +20,8 @@ const CreatePostCard = () =>{
     const myForm = new FormData();
     myForm.append('caption', desc);
     myForm.append('image', file);
-    console.log(myForm);
-    dispatch(addNewPostApi(myForm))
+    console.log(desc);
+    dispatch(addNewPostApi(myForm));
   }
 
 
@@ -56,7 +56,11 @@ const CreatePostCard = () =>{
 
                 <div>
                     <div className='py-2'>
-                        <textarea cols="30" rows="3" className='w-full text-xl p-2 border-none outline-none' placeholder="What's on your mind?"></textarea>
+                        <textarea cols="30" rows="3" 
+                            className='w-full text-xl p-2 border-none outline-none' 
+                            placeholder="What's on your mind?" 
+                            value={desc} 
+                            onChange={(e) => setDesc(e.target.value)}></textarea>
                     </div>
                     {file &&
                         <div className="selected-img my-4 rounded-md border-black border-2">

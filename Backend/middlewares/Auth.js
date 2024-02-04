@@ -5,11 +5,8 @@ const isAuthenticated = async (req, res, next) => {
 
     try {
         const { token } = req.cookies;
-
-        // console.log(token);
     
         if(!token) return res.status(401).json({success: false, massage: "please login first"});
-    
         
         const verified = JWT.verify(token, process.env.JWT_KEY);
     

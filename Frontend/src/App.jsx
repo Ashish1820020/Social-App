@@ -8,6 +8,10 @@ import { CssBaseline, createTheme } from "@mui/material";
 import { themeSettings } from "./themes";
 import { ThemeProvider } from "@emotion/react";
 import Navbar from "./Components/Shared/Navbar";
+import { useSelector } from "react-redux";
+import CreatePostCard from "./Components/utility/CreatePostCard";
+import PostsDetails from "./Components/Posts/PostsDetails";
+import PostDetailsContainer from "./Components/Posts/PostDetailsContainer";
 
 
 
@@ -16,15 +20,15 @@ const App = () => {
   const mode = "light";
 
   const theme = useMemo(() => createTheme(themeSettings(mode)), [mode]);
-
+  
+  const { enableCreatePost } = useSelector(state => state.utilsSlice);
 
   return (
     <BrowserRouter>
       <ThemeProvider theme={theme}>
-        {/* Resetting css */}
         <CssBaseline />
 
-        <div className="root-inside h-full w-full relative">
+        <div className="root-inside h-full w-full relative font-poppins">
           <Navbar />
 
           <Routes>
@@ -34,10 +38,20 @@ const App = () => {
             <Route path="/profile/:userId" element={<ProfilePage/>} />
 
           </Routes>
+
+          
+          {
+            enableCreatePost?
+                <CreatePostCard />
+                :
+                <></>
+          }
+
+          <PostDetailsContainer />
         </div>
       </ThemeProvider>
     </BrowserRouter>
   )
 }
 
-export default App
+export default App;

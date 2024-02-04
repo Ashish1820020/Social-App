@@ -46,7 +46,6 @@ const registerUser = async (req, res) => {
       obj.avatar = upload.secure_url;
     }
 
-    console.log(obj);
 
     user = await UserModel.create(obj);
 
@@ -114,22 +113,32 @@ const loginUser = async (req, res) => {
 const updateProfile = async (req, res, next) => {
   try {
 
-    const {name, email, avatar} = req.body;
+    const {name, email} = req.body;
+    let avatar = req.files['avatar'];
+    let coverImage = req.files['coverImg'];
 
-    let obj = {};
+    let queryObj = {};
 
-    if(name) obj.name = name;
-    if(email) obj.name = email;
-    // if(avatar) {
-    //   cloudinary.uploader.upload()
-    // }
+    if(name) queryObj.name = name;
+    if(email) queryObj.name = email;
 
-    await UserModel.findByIdAndUpdate(req.user._id, obj);
+    if (avatar) {
+      avatar = avatar[0];
+      const upload = await cloudinary.uploader.upload(avatar.path);
+      queryObj.avatar = upload.secure_url;
+    }
+
+    if (coverImage) {
+      coverImage = coverImage[0];
+      const upload = await cloudinary.uploader.upload(coverImage.path);
+      queryObj.coverImage = upload.secure_url;
+    }
+
+    await UserModel.findByIdAndUpdate(req.user._id, queryObj);
     const user = await UserModel.findById(req.user._id);
 
     res.status(201).json({success: true, massage: "Profile updated successfully", user});
 
-    
   } catch (error) {
     console.log(error);
     res.status(501).json({success: false, massage: "error occurred", error})

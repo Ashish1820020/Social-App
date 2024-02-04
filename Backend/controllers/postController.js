@@ -6,7 +6,9 @@ const createNewPost = async (req, res) => {
     try {
         const { caption } = req.body;
         const image = req.file;
-        const queryObj = {caption: "", owner: req.user._id, likes: [], comments: []}
+        const queryObj = {caption: "", owner: req.user._id, likes: [], comments: []};
+
+        console.log(caption);
 
         if (image) {
             const upload = await cloudinary.uploader.upload(image.path);
@@ -25,7 +27,6 @@ const createNewPost = async (req, res) => {
         
         user.posts.push(newPost._id);
         await user.save();
-        console.log(user);
 
         res.status(200).json({success: true, massage: "New Post pushed successfully"});
     } catch (error) {
@@ -72,7 +73,6 @@ const deletePost = async (req, res) => {
         const user = await UsersModel.findById(req.user._id);
 
         const index =  user.posts.indexOf(postId);
-        console.log(index);
 
         user.posts.splice(index, 1);
 
@@ -90,8 +90,6 @@ const getPostsOfFollowing = async (req, res) => {
     try {
 
         const user = await UsersModel.findById(req.user._id);
-        console.log(user.following);
-        console.log(req.user._id);
 
         const posts = await PostModel.find({
             owner:{
@@ -108,14 +106,20 @@ const getPostsOfFollowing = async (req, res) => {
     }
 };
 
+
+
+
 const getUserPost = async (req, res) => {
     try {
         const { userId } = req.params;
+        
         const user = await UsersModel.findById(userId);
 
-        const posts = await PostModel.find({ owner: user._id});
+        const posts = await PostModel
+                            .find({ owner: user._id})
+                            .populate('owner');
 
-        res.status(201).json({success: true, massage: "got posts successfully", posts});
+        res.status(201).json({success: true, massage: "got user posts successfully", posts});
     } catch (error) {
         res.status(500).json({
             success: false,
@@ -125,26 +129,27 @@ const getUserPost = async (req, res) => {
 };
 
 
+
+
 const likeAndUnlikePost = async (req, res, next) => {
     try {
-        const post = await PostModel.findById(req.params.id);
-
+        const post = await PostModel.findById(req.params.postId).populate('owner');
 
         if(post.likes.includes(req.user._id)){
             
             const index = post.likes.indexOf(req.user._id);
     
             post.likes.splice(index, 1);
-
             await post.save();
-            return res.status(201).json({success: true, massage: "post un-liked successfully"});
+            
+            return res.status(201).json({success: true, massage: "post un-liked successfully", post});
         }
-
+        
         post.likes.push(req.user._id);
-
+        
         await post.save();
 
-        res.status(201).json({success: true, message: "post liked successfully"});
+        res.status(201).json({success: true, message: "post liked successfully", post});
     } catch (error) {
         console.log(error);
         res.status(201).json({success: false, message: error.massage});

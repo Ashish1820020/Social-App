@@ -24,12 +24,12 @@ const HomePage = () => {
                 <RightBar />
             </div>
             
-            {
+            {/* {
                 enableCreatePost?
                     <CreatePostCard />
                     :
                     <></>
-            }
+            } */}
         </div>
     )
 }

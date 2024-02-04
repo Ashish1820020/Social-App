@@ -6,16 +6,16 @@ import MyPosts from './MyPosts'
 
 const ProfileDataAndPostsComponent = () => {
   return (
-    <div className='profile-bottom flex justify-between border-black border-2'>
+    <div className='profile-bottom flex justify-between'>
 
-      <div className="profile-bottom-left w-[36%] h-20 border-black border-2">
+      <div className="profile-bottom-left w-[38%]">
         <div className="profile-bottom-left-inside">
             <UserDescription />
         </div>
       </div>
 
-      <div className="profile-bottom-right w-[56%] border-black border-2">
-        <div className="profile-bottom-right-inside">
+      <div className="profile-bottom-right w-[60%]">
+        <div className="flex flex-col gap-6 profile-bottom-right-inside">
             <Share />
             <MyPosts />
         </div>

@@ -28,14 +28,8 @@ const postSchema = mongoose.Schema({
     
     comments: [
         {
-            user: {
-                type: mongoose.Schema.ObjectId,
-                ref: "Users"
-            },
-            comment: {
-                type: String,
-                required: [true, "Please enter your comment"]
-            },
+            type: mongoose.Schema.ObjectId,
+            ref: "Comments",
         }
     ],
       

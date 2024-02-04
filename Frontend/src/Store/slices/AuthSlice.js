@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { loginApi, signupApi } from "../api/authApi";
+import { loginApi, signupApi, updateUserProfileApi } from "../api/authApi";
 
 const getUserData = () => {
     const localUserData = localStorage.getItem("userData");
@@ -26,11 +26,16 @@ const authSlice = createSlice({
 
     name: "Auth",
     initialState,
-    reducers: {},
+    reducers: {
+        setUserData(state, action){
+            state.userData = action.payload;
+        }
+    },
 
-
-
+    
+    
     extraReducers: (builder) => {
+        // Login Reducer
         builder.addCase(loginApi.pending, (state, action) => {
             state.isLoading = true;
         });
@@ -45,6 +50,8 @@ const authSlice = createSlice({
             state.isLoggedIn = false;
         });
 
+        
+        // Signup Reducer
         builder.addCase(signupApi.pending, (state, action) => {
             state.isLoading = true;
         });
@@ -59,11 +66,26 @@ const authSlice = createSlice({
             state.isLoading = false;
             state.isLoggedIn = false;
         });
+
+
+        // UpdateProfile Reducer
+        builder.addCase(updateUserProfileApi.pending, (state, action) => {
+            state.isLoading = true;
+        });
+        builder.addCase(updateUserProfileApi.fulfilled, (state, action) => {
+            state.isLoading = false;
+            state.isError = false;
+            state.userData = action.payload.user;
+        });
+        builder.addCase(updateUserProfileApi.rejected, (state, action) => {
+            state.isError = true;
+            state.isLoading = false;
+        });
     }
 });
 
 
 
 
-export const {} = authSlice.actions;
+export const {setUserData} = authSlice.actions;
 export default authSlice.reducer;

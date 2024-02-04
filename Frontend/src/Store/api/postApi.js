@@ -3,16 +3,24 @@ import axios from "axios"
 
 
 export const getPostsApi = createAsyncThunk("getAllPosts", async () => {
-
   try {
     const response = await axios.get(`/api/v1/post`)
     console.log(response.data);
     return response?.data?.posts;
-    
+  } catch (error) {
+    console.log(error);
+    throw error; 
+  }
+});
+
+export const getUserPostApi = createAsyncThunk("getUserPosts", async (userId) => {
+  try {
+    const response = await axios.get(`/api/v1/post/${userId}`)
+    console.log(response.data);
+    return response?.data?.posts;
   } catch (error) {
     console.log(error);
     throw error;
-    
   }
 });
 
@@ -25,6 +33,20 @@ export const addNewPostApi = createAsyncThunk("addNewPost", async (myPost) => {
   })
   .catch((error) => {
     console.log(error);
-    // return thunkAPI.rejectWithValue({ error: err.message })
+    return thunkAPI.rejectWithValue({ error: err.message });
   })
+});
+
+
+export const handleLikeUnLikeApi = createAsyncThunk("likeUnlikePost", async (postId) => {
+  console.log(postId);
+
+  try {
+    const response = await axios.patch(`/api/v1/post/likeunlike/${postId}`)
+    console.log(response.data);
+    return response.data; 
+  } catch (error) {
+    console.log(error);
+    return thunkAPI.rejectWithValue({ error: err.message });
+  }
 });

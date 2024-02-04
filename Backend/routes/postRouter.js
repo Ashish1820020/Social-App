@@ -22,7 +22,7 @@ router.route("/post/:postId").put(isAuthenticated, updatePost);
 router.route("/post/:postId").delete(isAuthenticated, deletePost);
 
 router.route("/post").get(isAuthenticated, getPostsOfFollowing);
-router.route("/posts/:userId").get(isAuthenticated, getUserPost);
+router.route("/post/:userId").get(isAuthenticated, getUserPost);
 
 router.route("/post/likeunlike/:postId").patch(isAuthenticated, likeAndUnlikePost);
 
