@@ -22,3 +22,7 @@ input[type=file]::file-selector-button {
 }
 
 
+.detailed-post-card-inside{
+    overflow: scroll;
+    scrollbar-width: none;
+}

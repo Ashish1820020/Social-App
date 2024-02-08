@@ -1,17 +1,18 @@
 import React from 'react'
 import PostsDetails from './PostsDetails';
 import { RxCross1 } from "react-icons/rx";
+import PostDetailsCommentSection from './PostDetailsCommentSection';
 
 const PostDetailsContainer = () => {
   return (
     <div className='detailed-post-container fixed h-full w-full z-10 top-0 left-0 border-black border-2 bg-[rgba(0,0,0,0.3)]'>
         <div className='detailed-post-container-inside flex justify-center items-center h-full w-full'>
             
-            <div className='detailed-post-card max-w-[750px] w-[850px] h-[94%] bg-white rounded-[8px]'>
-                <div className='detailed-post-card-inside'>
+            <div className='detailed-post-card max-w-[700px] w-[800px] h-[94%] bg-white rounded-[8px] relative'>
+                <div className='detailed-post-card-inside h-full relative rounded-[8px]'>
 
 
-                    <div className='w-full h-[60px] border-b-2 border-black'>
+                    <div className='sticky top-0 left-0 bg-white w-full h-[60px] border-b-2 border-black'>
                         <div className='flex justify-between items-center w-full h-full'>
                             <div className='h-[60px] w-[60px] mx-[16px]'></div>
 
@@ -25,7 +26,12 @@ const PostDetailsContainer = () => {
                         </div>
                     </div>
 
-                    <PostsDetails />
+
+                    <div className=''>
+                        <PostsDetails />
+                        <PostDetailsCommentSection />
+                    </div>
+
                 </div>
             </div>
 

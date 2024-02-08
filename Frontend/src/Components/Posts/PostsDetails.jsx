@@ -6,12 +6,12 @@ import { RxCross1 } from 'react-icons/rx';
 
 const PostsDetails = () => {
   return (
-    <div className='post-card w-full bg-white rounded-[6px] my-[14px] text-[#626262] font-poppins'>
-        <div className="post-card-inside p-[20px] pb-[5px]">
+    <div className='post-card w-full bg-white rounded-[6px] text-[#626262] font-poppins'>
+        <div className="post-card-inside pb-[5px]">
 
 
             {/* py-4 mt-2 p-6 */}
-            <div className='flex items-center justify-between'>
+            <div className='flex items-center justify-between px-[20px] pt-[20px]'>
                 <div className='flex gap-4 items-center'>
                     {/* <NavLink to={`/profile/${owner._id}`}> */}
                         <img src=
@@ -28,6 +28,7 @@ const PostsDetails = () => {
                         // onClick={() => navigate(`/profile/${owner._id}`)} 
                         className='text-base font-semibold hover:underline cursor-pointer'>
                             {/* {owner.name} */}
+                            Ashish Bhattacharyya
                         </div>
                         <span className='text-[13px] text-[#9a9a9a]'>July 24 2024, 13:40 pm</span>
                     </div>
@@ -41,7 +42,7 @@ const PostsDetails = () => {
             </div>
 
 
-            <p className='my-[15px] text-[15px]'>Caption</p>
+            <p className='my-[15px] text-[15px] px-[20px]'>I am Ashish Bhattacharyya from Rayan, Barddhaman.</p>
 
 
             {/* {image && <hr className='bg-[black]'/>} */}
@@ -62,10 +63,10 @@ const PostsDetails = () => {
 
 
             {/*  px-2 mx-2  */}
-            <div className="like-comment-container flex justify-between">
+            <div className="like-comment-container flex justify-between px-[20px]">
                 <div 
                 // onClick={handleLike}
-                // className= {`icon-hover flex items-center justify-center w-1/3 py-2 my-1 hover:bg-[#00000015] rounded-md ${(likes?.includes(userData._id)) &&' text-blue-500'}`}
+                className= {`icon-hover flex items-center justify-center w-1/3 py-2 my-1 hover:bg-[#00000015] rounded-md`}
                     >
                     {
                         // likes?.includes(userData._id)? 
