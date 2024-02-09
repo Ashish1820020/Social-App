@@ -59,9 +59,6 @@ const PostsDetails = () => {
             </div>
 
 
-            {/* <hr className={image? "" : 'mx-6'} /> */}
-
-
             {/*  px-2 mx-2  */}
             <div className="like-comment-container flex justify-between px-[20px]">
                 <div 
@@ -69,9 +66,6 @@ const PostsDetails = () => {
                 className= {`icon-hover flex items-center justify-center w-1/3 py-2 my-1 hover:bg-[#00000015] rounded-md`}
                     >
                     {
-                        // likes?.includes(userData._id)? 
-                        //     <BiSolidLike  className='text-[22px] mx-2' />  
-                        // :
                             <BiLike className='text-[22px] mx-2' />  
                     }
                     <span className='text-[17px]'>Like</span>
