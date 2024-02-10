@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { getPostsApi, addNewPostApi, getUserPostApi, handleLikeUnLikeApi } from "../api/postApi";
+import { getPostsApi, addNewPostApi, getUserPostApi, handleLikeUnLikeApi, commentOnPostApi } from "../api/postApi";
 
 const getPostsData = () => {
     const localUserData = localStorage.getItem("userData");
@@ -12,8 +12,11 @@ const initialState = {
     isError: false,
     isLikeLoading: false,
     isLikeError: false,
+    isCommentLoading: false,
+    isCommentError: false,
     allPosts: [],
-    userPosts: []
+    userPosts: [],
+    detailedPost: null
 }
 
 
@@ -21,7 +24,11 @@ const postSlice = createSlice({
 
     name: "Posts",
     initialState,
-    reducers: {},
+    reducers: {
+        setDetailedPost(state, action){
+            state.detailedPost = action.payload;
+        }
+    },
 
     extraReducers: (builder) => {
         builder.addCase(getPostsApi.pending, (state, action) => {
@@ -69,11 +76,33 @@ const postSlice = createSlice({
         builder.addCase(handleLikeUnLikeApi.rejected, (state, action) => {
             state.isError = true;
         });
+
+
+        builder.addCase(commentOnPostApi.pending, (state, action) => {
+            state.isCommentLoading = true;
+        });
+        builder.addCase(commentOnPostApi.fulfilled, (state, action) => {
+            let { post } = action.payload;
+            let { allPosts } = state;
+            allPosts = allPosts.map((elem) => {
+                if(elem._id === post._id){
+                    return post;
+                }
+                return elem;
+            });
+            state.allPosts = allPosts;
+            state.detailedPost = post;
+            state.isCommentLoading = false;
+            state.isCommentError = false;
+        });
+        builder.addCase(commentOnPostApi.rejected, (state, action) => {
+            state.isCommentError = true;
+        });
     }
 });
 
 
 
 
-export const {} = postSlice.actions;
+export const {setDetailedPost} = postSlice.actions;
 export default postSlice.reducer;

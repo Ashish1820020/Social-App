@@ -7,15 +7,17 @@ import { PiDotsThreeOutlineFill } from "react-icons/pi";
 import { RxCross1 } from "react-icons/rx";
 import { NavLink, useNavigate } from 'react-router-dom';
 import { handleLikeUnLikeApi } from '../../Store/api/postApi';
+import { setDetailedPost } from "../../Store/slices/PostSlice";
+import { dummyProfileImage } from '../../assets/helper';
 
 
 
 const PostCard = (elem) => {
     const { _id, caption, image, likes, comments, owner } = elem.elem;
+    const { userData } = useSelector(state => state.auth);
         const navigate = useNavigate();
         const dispatch = useDispatch();
 
-        const { userData } = useSelector(state => state.auth);
 
         const handleLike = () => {
             dispatch(handleLikeUnLikeApi(_id));
@@ -27,7 +29,7 @@ const PostCard = (elem) => {
         <div className="post-card-inside p-[20px] pb-[5px]">
 
 
-            {/* py-4 mt-2 p-6 */}
+            {/* POST CARD TOP SECTION */}
             <div className='flex items-center justify-between'>
                 <div className='flex gap-4 items-center'>
                     <NavLink to={`/profile/${owner._id}`}>
@@ -35,7 +37,7 @@ const PostCard = (elem) => {
                                 {owner?.avatar?
                                     owner.avatar 
                                     :
-                                    'https://res.cloudinary.com/demo/image/upload/d_avatar.png/non_existing_id.png'
+                                    dummyProfileImage
                                 } 
                         alt="Profile Pic" 
                         className='img-hover h-10 w-10 rounded-full'/>
@@ -56,13 +58,15 @@ const PostCard = (elem) => {
                 </div>
             </div>
 
-
+            {/* POST CARD CAPTION SECTION */}
             <p className='my-[15px] text-[15px]'>{caption}</p>
 
 
+            {/* POST CARD HORIZONTAL BORDER SECTION */}
             {/* {image && <hr className='bg-[black]'/>} */}
 
 
+            {/* POST CARD IMAGE SECTION */}
             <div className="post-image">
                 {
                     image &&
@@ -72,10 +76,12 @@ const PostCard = (elem) => {
             </div>
 
 
+            {/* POST CARD HORIZONTAL BORDER SECTION */}
             <hr className={image? "" : 'mx-6'} />
 
 
             {/*  px-2 mx-2  */}
+            {/* POST CARD BOTTOM SECTION */}
             <div className="like-comment-container flex justify-between">
                 <div onClick={handleLike}
                 className= {`icon-hover flex items-center justify-center w-1/3 py-2 my-1 hover:bg-[#00000015] rounded-md ${(likes?.includes(userData._id)) &&' text-blue-500'}`} >
@@ -87,7 +93,8 @@ const PostCard = (elem) => {
                     }
                     <span className='text-[17px]'>Like</span>
                 </div>
-                <div className="icon-hover flex items-center justify-center w-1/3 py-2 my-1 hover:bg-[#00000015] rounded-md">
+                <div onClick={() => dispatch(setDetailedPost({ _id, caption, image, likes, comments, owner }))}
+                 className="icon-hover flex items-center justify-center w-1/3 py-2 my-1 hover:bg-[#00000015] rounded-md">
                     <FaRegComment className='text-[22px] mx-2' />
                     <span className='text-[17px]'>Comment</span>
                 </div>

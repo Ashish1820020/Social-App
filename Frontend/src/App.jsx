@@ -47,7 +47,7 @@ const App = () => {
                 <></>
           }
 
-          <PostDetailsContainer />
+          
         </div>
       </ThemeProvider>
     </BrowserRouter>

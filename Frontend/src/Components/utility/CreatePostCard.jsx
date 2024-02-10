@@ -13,14 +13,14 @@ const CreatePostCard = () =>{
     const [file, setFile] = useState(null);
     const [desc, setDesc] = useState("");
     const { userData } = useSelector(state => state.auth);
-
+    const canPost = (file=== null && desc.length === 0)? false : true;
+    console.log(canPost);
  
   const handleClick = (e) => {
     e.preventDefault();
     const myForm = new FormData();
     myForm.append('caption', desc);
     myForm.append('image', file);
-    console.log(desc);
     dispatch(addNewPostApi(myForm));
   }
 
@@ -113,7 +113,8 @@ const CreatePostCard = () =>{
 
                 <div className="w-full flex justify-center py-6">
                     <button onClick={handleClick}
-                    className='text-xl rounded-md bg-[#3578E5] text-white w-full py-2'>
+                    disabled={!canPost}
+                    className={`text-xl rounded-md ${canPost? 'bg-[#3578E5]' : 'bg-[#1f1e1e98]'} text-white w-full py-2`}>
                         Post
                     </button>
                 </div>

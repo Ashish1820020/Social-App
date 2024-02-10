@@ -8,7 +8,7 @@ import { useSelector } from "react-redux";
 const MidBar = () => {
 
     
-  const { allPosts } = useSelector(state => state.posts);
+  const { isLoading, allPosts, isError } = useSelector(state => state.posts);
 
   return (
     <div className="mid-bar w-[840px] max-w-[850px] px-[2rem]  border-solid md:flex">
@@ -17,9 +17,12 @@ const MidBar = () => {
         <Share />
 
         {
-          allPosts?.map((elem) => {
-            return <PostCard key={elem._id}  {...{elem}}/>
-          })
+          isLoading?
+            <div>...Loading</div>
+            :
+            allPosts?.map((elem) => {
+              return <PostCard key={elem._id} {...{elem}}/>
+            })
         }
       </div>
     </div>

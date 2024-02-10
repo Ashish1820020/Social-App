@@ -5,7 +5,7 @@ import axios from "axios"
 export const getPostsApi = createAsyncThunk("getAllPosts", async () => {
   try {
     const response = await axios.get(`/api/v1/post`)
-    console.log(response.data);
+    // console.log(response.data);
     return response?.data?.posts;
   } catch (error) {
     console.log(error);
@@ -16,7 +16,7 @@ export const getPostsApi = createAsyncThunk("getAllPosts", async () => {
 export const getUserPostApi = createAsyncThunk("getUserPosts", async (userId) => {
   try {
     const response = await axios.get(`/api/v1/post/${userId}`)
-    console.log(response.data);
+    // console.log(response.data);
     return response?.data?.posts;
   } catch (error) {
     console.log(error);
@@ -26,24 +26,34 @@ export const getUserPostApi = createAsyncThunk("getUserPosts", async (userId) =>
 
 
 export const addNewPostApi = createAsyncThunk("addNewPost", async (myPost) => {
-  await axios.post(`/api/v1/post`, myPost)
-  .then((response) => {
-    console.log(response.data);
+  try{
+    const response = await axios.post(`/api/v1/post`, myPost)
+    // console.log(response.data);
     return response.data;
-  })
-  .catch((error) => {
+
+  }catch(error){
     console.log(error);
     return thunkAPI.rejectWithValue({ error: err.message });
-  })
+  }
 });
 
 
 export const handleLikeUnLikeApi = createAsyncThunk("likeUnlikePost", async (postId) => {
-  console.log(postId);
-
   try {
     const response = await axios.patch(`/api/v1/post/likeunlike/${postId}`)
-    console.log(response.data);
+    // console.log(response.data);
+    return response.data; 
+  } catch (error) {
+    console.log(error);
+    return thunkAPI.rejectWithValue({ error: err.message });
+  }
+});
+
+
+export const commentOnPostApi = createAsyncThunk("commentOnPost", async ({postId, commentText, commentOwner}) => {
+  try {
+    const response = await axios.patch(`/api/v1/post/comment/${postId}`, {commentText, commentOwner})
+    // console.log(response.data);
     return response.data; 
   } catch (error) {
     console.log(error);

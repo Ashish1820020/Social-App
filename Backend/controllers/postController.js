@@ -1,5 +1,6 @@
 const PostModel = require("../models/PostModel");
 const UsersModel = require("../models/UsersModel");
+const CommentModel = require("../models/CommentsModel");
 const cloudinary = require("../utils/cloudinaryConfig");
 
 const createNewPost = async (req, res) => {
@@ -88,17 +89,25 @@ const deletePost = async (req, res) => {
 
 const getPostsOfFollowing = async (req, res) => {
     try {
-
         const user = await UsersModel.findById(req.user._id);
 
         const posts = await PostModel.find({
             owner:{
                 $in: [...user.following, req.user._id]
             }
-        }).populate('owner');
+        })
+        .populate('owner')
+        .populate({
+            path: 'comments',
+            populate: {
+                path: 'user',
+                select: 'name avatar _id'
+            }
+        });
 
         res.status(201).json({success: true, massage: "got posts successfully", posts});
     } catch (error) {
+        console.log(error);
         res.status(500).json({
             success: false,
             message: error.message,
@@ -117,7 +126,8 @@ const getUserPost = async (req, res) => {
 
         const posts = await PostModel
                             .find({ owner: user._id})
-                            .populate('owner');
+                            .populate('owner')
+                            .populate('comments');
 
         res.status(201).json({success: true, massage: "got user posts successfully", posts});
     } catch (error) {
@@ -141,6 +151,7 @@ const likeAndUnlikePost = async (req, res, next) => {
     
             post.likes.splice(index, 1);
             await post.save();
+
             
             return res.status(201).json({success: true, massage: "post un-liked successfully", post});
         }
@@ -148,6 +159,14 @@ const likeAndUnlikePost = async (req, res, next) => {
         post.likes.push(req.user._id);
         
         await post.save();
+        await post
+        .populate({
+            path: 'comments',
+            populate: {
+                path: 'user',
+                select: 'name avatar _id'
+            }
+        });
 
         res.status(201).json({success: true, message: "post liked successfully", post});
     } catch (error) {
@@ -156,4 +175,31 @@ const likeAndUnlikePost = async (req, res, next) => {
     }
 }
 
-module.exports = { createNewPost, likeAndUnlikePost, updatePost, deletePost, getPostsOfFollowing, getUserPost };
+
+const commentOnPost = async (req, res, next) => {
+    const { commentText } = req.body;
+    try {
+        const post = await PostModel.findById(req.params.postId).populate('owner');
+        const newComment = await CommentModel.create({content: commentText, user: req.user._id, post: req.params. postId})
+        newComment.save();
+        post.comments.push(newComment._id);
+        
+        await post.save()
+
+        await post
+        .populate({
+            path: 'comments',
+            populate: {
+                path: 'user',
+                select: 'name avatar _id'
+            }
+        });
+
+        res.status(201).json({success: true, message: "your comment posted successfully", post});
+    } catch (error) {
+        console.log(error);
+        res.status(201).json({success: false, message: error.massage});
+    }
+}
+
+module.exports = { createNewPost, likeAndUnlikePost, updatePost, deletePost, getPostsOfFollowing, getUserPost, commentOnPost };

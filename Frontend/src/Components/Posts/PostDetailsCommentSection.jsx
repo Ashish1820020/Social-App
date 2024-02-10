@@ -1,9 +1,12 @@
 import React from 'react'
+import SingleCommentCard from './SingleCommentCard'
 
-const PostDetailsCommentSection = () => {
+const PostDetailsCommentSection = ({comments}) => {
   return (
-    <div className='h-[50rem] w-full border-2 border-black'>
-      comments
+    <div className='w-full flex flex-col'>
+    {
+      comments.map((comment, index) => <SingleCommentCard key={comment._id+comment.createdAt} comment={comment} />)
+    }
     </div>
   )
 }
