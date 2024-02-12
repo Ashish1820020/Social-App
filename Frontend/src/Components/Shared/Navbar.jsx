@@ -8,9 +8,14 @@ import {
 } from "react-icons/md";
 import { CgProfile } from "react-icons/cg";
 import Logo from "../../assets/SocialEcho.png";
+import { useDispatch } from "react-redux";
+import { logoutApi } from "../../Store/api/authApi";
+import { useNavigate } from "react-router-dom";
 
 const Navbar = () => {
   const mode = "light";
+  const dispatch = useDispatch();
+  const navigate = useNavigate()
   return (
     <div className="shadow bg-white flex items-center justify-between px-5 h-16">
 
@@ -31,6 +36,16 @@ const Navbar = () => {
         )}
         <MdMessage className="mx-2 cursor-pointer" />
         <MdNotificationsActive className="mx-4 cursor-pointer" />
+        <div className="h-[20px] w-[20px] border-2 border-black rounded-full relative">
+          <div className="w-[6rem] border-2 border-red-500 absolute top-6 left-[-6rem] bg-white">
+            <button 
+            className="px-2 py-2 w-full hover:bg-[#a39f9f70] text-2xl font-body"
+            onClick={() =>{
+              dispatch(logoutApi())
+              navigate('/')
+            }}>logout</button>
+          </div>
+        </div>
       </div>
     </div>
   );

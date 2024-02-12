@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { loginApi, signupApi, updateUserProfileApi } from "../api/authApi";
+import { loginApi, logoutApi, signupApi, updateUserProfileApi } from "../api/authApi";
 
 const getUserData = () => {
     const localUserData = localStorage.getItem("userData");
@@ -78,6 +78,22 @@ const authSlice = createSlice({
             state.userData = action.payload.user;
         });
         builder.addCase(updateUserProfileApi.rejected, (state, action) => {
+            state.isError = true;
+            state.isLoading = false;
+        });
+
+
+        // UpdateProfile Reducer
+        builder.addCase(logoutApi.pending, (state, action) => {
+            state.isLoading = true;
+        });
+        builder.addCase(logoutApi.fulfilled, (state, action) => {
+            state.isLoading = false;
+            state.isError = false;
+            state.userData = {};
+            state.isLoggedIn = false;
+        });
+        builder.addCase(logoutApi.rejected, (state, action) => {
             state.isError = true;
             state.isLoading = false;
         });

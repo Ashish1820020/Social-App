@@ -14,6 +14,18 @@ export const loginApi = createAsyncThunk("login", async (loginData) => {
   }
 });
 
+
+export const logoutApi = createAsyncThunk("logout", async () => {
+  try {
+    const response = await axios.get("/api/v1/auth/logout");
+    localStorage.removeItem("userData");
+    return response.data;
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+});
+
 export const signupApi = createAsyncThunk("signup", async (signupForm) => {
   try {
     const response = await axios.post("/api/v1/auth/signup", signupForm);
