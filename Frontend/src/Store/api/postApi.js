@@ -5,7 +5,7 @@ import axios from "axios"
 export const getPostsApi = createAsyncThunk("getAllPosts", async () => {
   try {
     const response = await axios.get(`/api/v1/post`)
-    // console.log(response.data);
+    console.log(response);
     return response?.data?.posts;
   } catch (error) {
     console.log(error);

@@ -1,7 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { loginApi, logoutApi, signupApi, updateUserProfileApi } from "../api/authApi";
-
+import Cookies from 'js-cookie'
 const getUserData = () => {
+
+    console.log(Cookies.get('token'));
     const localUserData = localStorage.getItem("userData");
 
     if(localUserData) return JSON.parse(localUserData);

@@ -12,6 +12,8 @@ import { useSelector } from "react-redux";
 import CreatePostCard from "./Components/utility/CreatePostCard";
 import PostsDetails from "./Components/Posts/PostsDetails";
 import PostDetailsContainer from "./Components/Posts/PostDetailsContainer";
+import { verifyToken } from "./Services/AuthService";
+import RouterComponent from "./Router/RouterComponent";
 
 
 
@@ -22,24 +24,15 @@ const App = () => {
   const theme = useMemo(() => createTheme(themeSettings(mode)), [mode]);
   
   const { enableCreatePost } = useSelector(state => state.utilsSlice);
-
+  verifyToken()
   return (
     <BrowserRouter>
       <ThemeProvider theme={theme}>
         <CssBaseline />
+        <RouterComponent />
 
         <div className="root-inside h-full w-full relative font-poppins">
           <Navbar />
-
-          <Routes>
-
-            <Route path="/" element={<LoginPage/>} />
-            <Route path="/home" element={<HomePage/>} />
-            <Route path="/profile/:userId" element={<ProfilePage/>} />
-
-          </Routes>
-
-          
           {
             enableCreatePost?
                 <CreatePostCard />
