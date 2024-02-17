@@ -5,13 +5,15 @@ export const routesArray = [
     {
         path_url: '/',
         component: LoginPage,
-        authenticationRequires: false
+        authenticationRequires: false,
+        redirectTo: '/home'
     },
-
+    
     {
         path_url: '/login-signup',
         component: LoginPage,
-        authenticationRequires: false
+        authenticationRequires: false,
+        redirectTo: '/home'
     },
 
     {
@@ -26,7 +28,7 @@ export const routesArray = [
         authenticationRequires: true 
     },
     {
-        path_url: '/404',
+        path_url: '*',
         component: PageNotFoundPage,
         authenticationRequires: false 
     },

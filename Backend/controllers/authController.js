@@ -173,6 +173,19 @@ const logout = async (req, res, next) => {
 };
 
 
+/**
+ * This handler handles user logout.
+ * send GET Request at /api/v1/auth/logout
+ * */
+
+const verifyAuthToken = async (req, res, next) => {
+  res.status(200).json({
+    success: true,
+    msg: "Auth token is verified",
+  });
+};
+
+
 
 
 /**
@@ -269,4 +282,4 @@ const followUser = async (req, res) => {
 
 
 
-module.exports = { registerUser, loginUser, followUser, logout, updateProfile, forgotPassword };
+module.exports = { registerUser, loginUser, followUser, logout, updateProfile, forgotPassword, verifyAuthToken };

@@ -23,7 +23,7 @@ const Navbar = () => {
         <img className="w-36 h-5" src={Logo} />
       </div>
 
-      <div className="h-10 text-black py-1 bg-gray-50 border w-full hidden   sm:flex items-center justify-between rounded-full text-sm shadow-sm focus:shadow-outline-blue focus:border-blue-500 transition duration-300 pl-5 pr-5 md:w-[420px] lg:w-[660px] ">
+      <div className="h-10 text-black py-1 bg-gray-50 border w-full hidden sm:flex items-center justify-between rounded-full text-sm shadow-sm focus:shadow-outline-blue focus:border-blue-500 transition duration-300 pl-5 pr-5 md:w-[420px] lg:w-[660px] ">
         <input type="text" placeholder="search for peoples" name="search" className="bg-gray-50 focus:outline-none md:w-[220px]" />
         <MdSearch className="text-xl cursor-pointer" />
       </div>

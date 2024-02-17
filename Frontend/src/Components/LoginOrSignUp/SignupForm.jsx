@@ -5,7 +5,7 @@ import axios from 'axios';
 
 
 
-const SignupForm = () => {
+const SignupForm = ({handleSignup}) => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -13,20 +13,6 @@ const SignupForm = () => {
   const [avatar, setAvatar] = useState("");
 
   const dispatch = useDispatch();
-
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
-    let signupForm = new FormData();
-    signupForm.append("name", name);
-    signupForm.append("email", email);
-    signupForm.append("password", password);
-    signupForm.append("confirmPassword", confirmPassword);
-    signupForm.append("avatar", avatar);
-
-    dispatch(signupApi(signupForm));
-  }
 
 
   
@@ -51,7 +37,7 @@ const SignupForm = () => {
         <input type="file" accept="image/*" onChange={(e) => setAvatar(e.target.files[0])} name="avatar" 
         className=" bg-white border-2 border-solid border-gray-500 rounded-md mt-2"/>
 
-        <button type='submit'onClick={handleSubmit} className="bg-blue-700 text-white text-lg mt-4 py-2 rounded-sm hover:bg-blue-500">Sign up</button>
+        <button type='submit'onClick={(e) => handleSignup(e, {name, email, password, confirmPassword, avatar})} className="bg-blue-700 text-white text-lg mt-4 py-2 rounded-sm hover:bg-blue-500">Sign up</button>
     </form>
   )
 }

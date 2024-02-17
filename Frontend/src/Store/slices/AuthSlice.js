@@ -1,13 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { loginApi, logoutApi, signupApi, updateUserProfileApi } from "../api/authApi";
-import Cookies from 'js-cookie'
+
 const getUserData = () => {
-
-    console.log(Cookies.get('token'));
     const localUserData = localStorage.getItem("userData");
-
     if(localUserData) return JSON.parse(localUserData);
-
     return null;
 }
 
@@ -85,14 +81,14 @@ const authSlice = createSlice({
         });
 
 
-        // UpdateProfile Reducer
+        // Logout Reducer
         builder.addCase(logoutApi.pending, (state, action) => {
             state.isLoading = true;
         });
         builder.addCase(logoutApi.fulfilled, (state, action) => {
             state.isLoading = false;
             state.isError = false;
-            state.userData = {};
+            state.userData = null;
             state.isLoggedIn = false;
         });
         builder.addCase(logoutApi.rejected, (state, action) => {
