@@ -13,8 +13,10 @@ const ProfileComponent = ({setProfileImgFile, previewProfileImg, setPreviewProfi
   return (
     <form action="put" encType="multipart/form-data" className='profile flex flex-col justify-center w-full h-48 rounded-lg p-2 bg-white'>
         <div className="profile-inside flex justify-between py-2 px-4">
+            
             <div className="image-section img-hover max-w-[10%] h-28 w-28 rounded-full relative border-[#00000063] border-[.5px]">
-                <img src={previewProfileImg && previewProfileImg} alt="" className='w-full h-full rounded-full' />
+                <img src={previewProfileImg && previewProfileImg} 
+                alt="Profile Image" className='w-full h-full rounded-full' />
                 <input
                 type="file"
                 id="profilePic"
@@ -28,6 +30,7 @@ const ProfileComponent = ({setProfileImgFile, previewProfileImg, setPreviewProfi
                     <FaCamera className='icon-hover text-xl'/>
                 </label>
             </div>
+
             <div className="user-details-section w-[90%] flex justify-between">
                 <div className="user-details-left">
                     <p className='text-[1.8rem] font-bold text-[#00000091]'>{userProfileData.name}</p>

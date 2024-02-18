@@ -14,15 +14,14 @@ const CreatePostCard = () =>{
     const [desc, setDesc] = useState("");
     const { userData } = useSelector(state => state.auth);
     const canPost = (file=== null && desc.length === 0)? false : true;
-    console.log(canPost);
  
-  const handleClick = (e) => {
-    e.preventDefault();
-    const myForm = new FormData();
-    myForm.append('caption', desc);
-    myForm.append('image', file);
-    dispatch(addNewPostApi(myForm));
-  }
+    const handleClick = (e) => {
+        e.preventDefault();
+        const myForm = new FormData();
+        myForm.append('caption', desc);
+        myForm.append('image', file);
+        dispatch(addNewPostApi(myForm));
+    }
 
 
   return (

@@ -5,7 +5,7 @@ const ProfileCoverImage = ({setCoverImgFile, previewCoverImg, setPreviewCoverImg
 
   const handleCoverImgSelect = (e) => {
     setPreviewCoverImg(URL.createObjectURL(e.target.files[0]))
-    setCoverImgFile(e.target.files[0])
+    setCoverImgFile(e.target.files[0]);
   }
 
   return (
@@ -19,7 +19,7 @@ const ProfileCoverImage = ({setCoverImgFile, previewCoverImg, setPreviewCoverImg
 
         <input
           type="file"
-          id="file1"
+          id="coverPic"
           name='file'
           accept="image/*"
           style={{ display: "none" }}
@@ -27,7 +27,7 @@ const ProfileCoverImage = ({setCoverImgFile, previewCoverImg, setPreviewCoverImg
           />
 
         <label className="add-cover-pic-button bg-white w-fit px-3 p-2 rounded-lg absolute right-2 bottom-2 hover: cursor-pointer"
-          htmlFor='file1'>
+          htmlFor='coverPic'>
           <div className="add-cover-pic-button-inside flex items-center gap-3">
             
             <div className="">

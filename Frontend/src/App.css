@@ -37,3 +37,9 @@ input[type=file]::file-selector-button {
 .spinner-container{
     max-height: 100vh !important;
 }
+
+
+
+body::-webkit-scrollbar {
+    display: none;
+}

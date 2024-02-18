@@ -92,10 +92,12 @@ const ProfilePage = () => {
 
                 {
                     detailedPost?
-                        <PostDetailsContainer postDetails={detailedPost} />
+                        <PostDetailsContainer postDetails={detailedPost} setPostDetails={setDetailedPost} />
                     :
                         <></>
                 }
+
+                
             </Spinner>
         </>
     )

@@ -6,7 +6,6 @@ import MyPosts from './MyPosts'
 
 const ProfileDataAndPostsComponent = ({detailedPost, setDetailedPost}) => {
 
-  console.log("ProfileDataAndPostsComponent");
   return (
     <div className='profile-bottom flex justify-between'>
 

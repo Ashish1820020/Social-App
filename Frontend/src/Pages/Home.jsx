@@ -2,10 +2,7 @@ import Navbar from "../Components/Shared/Navbar";
 import LeftBar from "../Components/Home/LeftBar";
 import MidBar from "../Components/Home/MidBar";
 import RightBar from "../Components/Home/RightBar";
-import { useDispatch, useSelector } from "react-redux";
-import { useEffect, useState } from "react";
-import { getPostsApi } from "../Store/api/postApi";
-import axios from "axios";
+import { useSelector } from "react-redux";
 import CreatePostCard from "../Components/utility/CreatePostCard";
 import PostDetailsContainer from "../Components/Posts/PostDetailsContainer";
 import { setDetailedPost } from "../Store/slices/PostSlice";
@@ -15,11 +12,8 @@ const HomePage = () => {
     const auth = useSelector(state => state.auth);
     const { enableCreatePost } = useSelector(state => state.utilsSlice);
     const { detailedPost, isLoading } = useSelector(state => state.posts);
-    // console.log(detailedPost);
-    // const [detailedPost, setDetailedPost] = useState(null);
     
     console.log("home");
-    console.log(auth.isLoggedIn, auth.userData);
     
     
     return( 
@@ -36,6 +30,13 @@ const HomePage = () => {
                     detailedPost?
                         <PostDetailsContainer detailedPost={detailedPost} />
                     :
+                        <></>
+                }
+
+                {
+                    enableCreatePost?
+                        <CreatePostCard />
+                        :
                         <></>
                 }
             </div>

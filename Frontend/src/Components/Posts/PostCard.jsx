@@ -12,8 +12,7 @@ import { dummyProfileImage } from '../../assets/helper';
 
 
 
-const PostCard = ({elem, detailedPost, setDetailedPost, from}) => {
-    console.log(elem);
+const PostCard = ({elem, detailedPost, setPostDetails, from}) => {
     const { _id, caption, image, likes, comments, owner } = elem;
     const { userData } = useSelector(state => state.auth);
     const navigate = useNavigate();
@@ -26,7 +25,7 @@ const PostCard = ({elem, detailedPost, setDetailedPost, from}) => {
 
     const handleDetailedPost = () => {
         if(from === 'profile')
-            setDetailedPost({ _id, caption, image, likes, comments, owner })
+            setPostDetails({ _id, caption, image, likes, comments, owner })
         else
             dispatch(setDetailedPost({ _id, caption, image, likes, comments, owner }))
     }

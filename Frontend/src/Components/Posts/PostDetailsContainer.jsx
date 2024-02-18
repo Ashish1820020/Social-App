@@ -7,7 +7,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { commentOnPostApi } from '../../Store/api/postApi';
 import PostCommentInput from './PostCommentInput';
 
-const PostDetailsContainer = ({postDetails}) => {
+const PostDetailsContainer = ({postDetails, setPostDetails}) => {
     const dispatch = useDispatch();
     const { userData } = useSelector(state => state.auth);
     const { detailedPost } = useSelector(state => state.posts);
@@ -28,7 +28,12 @@ const PostDetailsContainer = ({postDetails}) => {
 
                             <div><p className='text-[20px] font-bold'>TechDesign.Live's post</p></div>
 
-                            <div onClick={() => dispatch(setDetailedPost(null))}
+                            <div onClick={() => {
+                                postDetails?
+                                    setPostDetails(null)
+                                :
+                                    dispatch(setDetailedPost(null))}
+                            }
                             className='flex items-center justify-center h-[60px] w-[60px]'>
                                 <div className='p-[.6rem] bg-[#cfccccc0] rounded-full mx-[16px] hover:bg-[#cfcccc79]'>
                                     <RxCross1 className='icon-hover text-[1rem] font-bold' />
@@ -41,7 +46,7 @@ const PostDetailsContainer = ({postDetails}) => {
                     {/* DETAILED POST MAIN SECTION */}
                     <div className='post-details-mid my-1'>
                         <div className='post-details-mid-inside'>
-                            <PostsDetails {...{ ...detailedPost, userData, dispatch }} />
+                            <PostsDetails {...{ ...postDetails? postDetails : detailedPost, userData, dispatch }} />
                             <PostDetailsCommentSection comments={comments}/>
                         </div>
                     </div>

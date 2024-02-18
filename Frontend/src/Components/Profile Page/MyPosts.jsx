@@ -19,7 +19,6 @@ const MyPosts = ({detailedPost, setDetailedPost}) => {
         setIsLoading(true);
         try {
             const data = await getUserPostApi(profileId)
-            console.log(data);
             setUserPosts(data);
         } catch (error) {
             console.log(error);
@@ -40,7 +39,7 @@ const MyPosts = ({detailedPost, setDetailedPost}) => {
           isError? 
           <div>Error occurred</div>
           :
-          userPosts?.map((elem, index) => <PostCard key={elem._id}  {...{elem, detailedPost, setDetailedPost, from: 'profile'}}/>)
+          userPosts?.map((elem, index) => <PostCard key={elem._id}  {...{elem, detailedPost, setPostDetails: setDetailedPost, from: 'profile'}}/>)
         }
       </div>
     </PostLoader>
