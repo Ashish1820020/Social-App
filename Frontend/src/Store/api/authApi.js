@@ -38,26 +38,26 @@ export const signupApi = createAsyncThunk("signup", async (signupForm) => {
 });
 
 
-
-// export const authApi = async () => {
-//   const [isLoading, setIsLoading] = useState(false);
-//   // VERIFY AUTHENTICATION TOKEN OF CURRENT USER
-//   async function verifyTokenApi() {
-//     setIsLoading(true);
-//     try {
-//       const response = await axios.get("/api/v1/auth/verify");
-//       !response?.data?.success && localStorage.removeItem("userData");
-//       setIsLoading(false);
-//       return response?.data?.success;
-//     } catch (error) {
-//       console.log(error);
-//       setIsLoading(false);
-//       throw error;
-//     }
-//   };
-//   return { verifyTokenApi, isLoading}
-// }
-
+export const getUserProfileData = async (userId) => {
+  try {
+    const response = await axios.get(`/api/v1/auth/user/${userId}`);
+    // console.log(response);
+    return response?.data?.data;
+  } catch (error) {
+    // console.log(error);
+    throw error;
+  }
+};
+// export const getUserProfileData = createAsyncThunk("getUserProfileData", async (userId) => {
+//   try {
+//     const response = await axios.get(`/api/v1/auth/user/${userId}`);
+//     // console.log(response);
+//     return response.data;
+//   } catch (error) {
+//     // console.log(error);
+//     throw error;
+//   }
+// });
 
 
 export const updateUserProfileApi = createAsyncThunk("updateUserProfile", async (updateForm) => {

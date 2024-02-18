@@ -9,7 +9,6 @@ import { useNavigate } from 'react-router-dom';
 
 const PostsDetails = ({ _id, caption, image, likes, owner, userData, dispatch }) => {
 
-    
     const navigate = useNavigate();
     
     // LIKE UNLIKE FEATURE DETAILED POST CARD

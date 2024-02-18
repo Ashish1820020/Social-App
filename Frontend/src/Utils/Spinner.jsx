@@ -8,7 +8,7 @@ const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />;
 const Spinner = (props) => {
   return (
     <Spin
-    className='h-full w-full'
+    className='spinner-container h-full w-full'
     indicator={antIcon}
     spinning={props.isLoading}
     delay={props.delay ? props.delay : 0}

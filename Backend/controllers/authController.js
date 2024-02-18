@@ -279,7 +279,29 @@ const followUser = async (req, res) => {
 
 
 
+const getUserProfileData = async (req, res) => {
+  try {
+    const { userId } = req.params;
+
+    const userData = await UserModel
+                          .findById(userId)
+                          .select("_id name avatar email followers following coverImage");
+
+    if(!userData)
+      return res.status(401).json({success: false, msg: 'User not present', data: {}});
+
+    return res.status(200).json({success: true, msg: 'User data found', data: userData});
+    
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ success: false, massage: error });
+  }
+};
 
 
 
-module.exports = { registerUser, loginUser, followUser, logout, updateProfile, forgotPassword, verifyAuthToken };
+
+
+
+
+module.exports = { registerUser, loginUser, followUser, logout, updateProfile, forgotPassword, verifyAuthToken, getUserProfileData };

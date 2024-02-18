@@ -7,11 +7,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import { commentOnPostApi } from '../../Store/api/postApi';
 import PostCommentInput from './PostCommentInput';
 
-const PostDetailsContainer = () => {
+const PostDetailsContainer = ({postDetails}) => {
     const dispatch = useDispatch();
     const { userData } = useSelector(state => state.auth);
     const { detailedPost } = useSelector(state => state.posts);
-    const { _id, caption, comments, image, likes, owner } = detailedPost;
+    const { _id, caption, comments, image, likes, owner } = postDetails? postDetails : detailedPost;
 
   return (
     <div className='detailed-post-container fixed h-full w-full z-10 top-0 left-0 border-black border-2 bg-[rgba(0,0,0,0.3)]'>

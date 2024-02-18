@@ -18,7 +18,6 @@ const isAuthenticated = async (req, res, next) => {
             if(err) {
                 return res.status(200).cookie("token", null, options).json({success: false, massage: "session expired please login first"});
             }
-            
             req.user = await User.findById(data._id);
             next();
         });  

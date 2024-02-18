@@ -4,23 +4,30 @@ import ProfileCoverImage from "../Components/Profile Page/CoverImage";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import { getUserPostApi } from '../Store/api/postApi';
-import { updateUserProfileApi } from "../Store/api/authApi";
+import { getUserProfileData, updateUserProfileApi } from "../Store/api/authApi";
+import { useLocation } from "react-router-dom";
+import Spinner from "../Utils/Spinner";
+import PostDetailsContainer from "../Components/Posts/PostDetailsContainer";
 
 const ProfilePage = () => {
 
     const { userData } = useSelector(state => state.auth);
+    const [ isLoading, setIsLoading ] = useState(false);
+    const [ detailedPost, setDetailedPost ] = useState(null);
+    const [ userProfileData, setUserProfileData ] = useState(null);
+    const [ isError, setIsError ] = useState(false);
     const dispatch = useDispatch();
 
     const [coverImgFile, setCoverImgFile] = useState(null);
     const [profileImgFile, setProfileImgFile] = useState(null);
-    const [previewProfileImg, setPreviewProfileImg] = useState(userData?.avatar);
-    const [previewCoverImg, setPreviewCoverImg] = useState(userData?.coverImage);
+    const [previewProfileImg, setPreviewProfileImg] = useState(null);
+    const [previewCoverImg, setPreviewCoverImg] = useState(null);
+    const location = useLocation();
 
 
     const handleClick = (e) => {
       e.preventDefault();
       const myForm = new FormData();
-
       if(coverImgFile)
         myForm.append('coverImg', coverImgFile);
       if(profileImgFile)
@@ -30,12 +37,26 @@ const ProfilePage = () => {
       setCoverImgFile(null);
       setProfileImgFile(null);
     }
-    
-
-
 
     useEffect(() => {
-        dispatch(getUserPostApi(userData._id))
+        const profileId = location.pathname.split('/')[2]
+        const fetchProfileData = async () => {
+            setIsLoading(true);
+            try {
+                const data = await getUserProfileData(profileId)
+                setPreviewCoverImg(data?.coverImage);
+                setPreviewProfileImg(data?.avatar);
+                setUserProfileData(data);
+            } catch (error) {
+                console.log(error);
+                setIsError(true)
+            }
+            finally{
+                setIsLoading(false);
+            }
+
+        }
+        fetchProfileData();
     }, []);
 
     return( 
@@ -54,14 +75,28 @@ const ProfilePage = () => {
                     </div>
                 </div>
             }
+            <Spinner isLoading={isLoading}>
+                {
+                    isError? 
+                    <div>Error occurred</div>
+                    :
+                    userProfileData &&
+                    <div className="profile-page flex items-center justify-center w-full">
+                        <div className="flex flex-col gap-8 profile-page-inside w-[1400px] my-10">
+                            <ProfileCoverImage {...{setCoverImgFile, previewCoverImg, setPreviewCoverImg}} />
+                            <ProfileComponent {...{setProfileImgFile, previewProfileImg, setPreviewProfileImg, userProfileData}} />
+                            <ProfileDataAndPostsComponent {...{detailedPost, setDetailedPost}} />
+                        </div>
+                    </div>
+                }
 
-            <div className="profile-page flex items-center justify-center w-full">
-                <div className="flex flex-col gap-8 profile-page-inside w-[1400px] my-10">
-                    <ProfileCoverImage {...{coverImgFile, setCoverImgFile, previewCoverImg, setPreviewCoverImg, handleClick}} />
-                    <ProfileComponent {...{profileImgFile, setProfileImgFile, previewProfileImg, setPreviewProfileImg, handleClick, userData}} />
-                    <ProfileDataAndPostsComponent />
-                </div>
-            </div>
+                {
+                    detailedPost?
+                        <PostDetailsContainer postDetails={detailedPost} />
+                    :
+                        <></>
+                }
+            </Spinner>
         </>
     )
 }

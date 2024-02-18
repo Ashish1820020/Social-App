@@ -26,3 +26,14 @@ input[type=file]::file-selector-button {
     overflow: scroll;
     scrollbar-width: none;
 }
+
+
+.create-post-card{
+    /* display: none; */
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+}
+
+.spinner-container{
+    max-height: 100vh !important;
+}

@@ -18,6 +18,24 @@ html, body,
   background-color: rgb(240, 242, 245);
 }
 
+@layer utilities {
+  no-scrollbar {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+  }
+  no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+}
+@layer components {
+  no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  no-scrollbar {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+  }
+}
 /* 
 
 *::-webkit-scrollbar {

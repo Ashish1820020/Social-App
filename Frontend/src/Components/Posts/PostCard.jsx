@@ -12,17 +12,24 @@ import { dummyProfileImage } from '../../assets/helper';
 
 
 
-const PostCard = (elem) => {
-    const { _id, caption, image, likes, comments, owner } = elem.elem;
+const PostCard = ({elem, detailedPost, setDetailedPost, from}) => {
+    console.log(elem);
+    const { _id, caption, image, likes, comments, owner } = elem;
     const { userData } = useSelector(state => state.auth);
-        const navigate = useNavigate();
-        const dispatch = useDispatch();
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
 
 
-        const handleLike = () => {
-            dispatch(handleLikeUnLikeApi(_id));
-        }
+    const handleLike = () => {
+        dispatch(handleLikeUnLikeApi(_id));
+    }
 
+    const handleDetailedPost = () => {
+        if(from === 'profile')
+            setDetailedPost({ _id, caption, image, likes, comments, owner })
+        else
+            dispatch(setDetailedPost({ _id, caption, image, likes, comments, owner }))
+    }
 
   return (
     <div className='post-card w-full bg-white rounded-[6px] my-[14px] text-[#626262] font-poppins'>
@@ -43,7 +50,10 @@ const PostCard = (elem) => {
                         className='img-hover h-10 w-10 rounded-full'/>
                     </NavLink>
                     <div className='flex-col'>
-                        <div onClick={() => navigate(`/profile/${owner._id}`)} className='text-base font-semibold hover:underline cursor-pointer'>{owner.name}</div>
+                        <div onClick={() => navigate(`/profile/${owner._id}`)} 
+                        className='text-base font-semibold hover:underline cursor-pointer'>
+                            {owner.name}
+                        </div>
                         <span className='text-[13px] text-[#9a9a9a]'>July 24 2024, 13:40 pm</span>
                     </div>
                 </div>
@@ -80,7 +90,6 @@ const PostCard = (elem) => {
             <hr className={image? "" : 'mx-6'} />
 
 
-            {/*  px-2 mx-2  */}
             {/* POST CARD BOTTOM SECTION */}
             <div className="like-comment-container flex justify-between">
                 <div onClick={handleLike}
@@ -93,7 +102,7 @@ const PostCard = (elem) => {
                     }
                     <span className='text-[17px]'>Like</span>
                 </div>
-                <div onClick={() => dispatch(setDetailedPost({ _id, caption, image, likes, comments, owner }))}
+                <div onClick={handleDetailedPost}
                  className="icon-hover flex items-center justify-center w-1/3 py-2 my-1 hover:bg-[#00000015] rounded-md">
                     <FaRegComment className='text-[22px] mx-2' />
                     <span className='text-[17px]'>Comment</span>

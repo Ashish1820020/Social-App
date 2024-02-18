@@ -13,21 +13,19 @@ import Spinner from "../Utils/Spinner";
 
 const HomePage = () => {
     const auth = useSelector(state => state.auth);
-    const { isLoggedIn, userData } = auth;
     const { enableCreatePost } = useSelector(state => state.utilsSlice);
     const { detailedPost, isLoading } = useSelector(state => state.posts);
-    const dispatch = useDispatch();
     // console.log(detailedPost);
     // const [detailedPost, setDetailedPost] = useState(null);
-
-    useEffect(() => {
-        dispatch(getPostsApi());
-    }, []);
+    
+    console.log("home");
+    console.log(auth.isLoggedIn, auth.userData);
+    
     
     return( 
         <Spinner isLoading={auth.isLoading}>
-            <div className=' home text-black border-solid w-full h-full px-2'>
-                <div className=" home-inside flex justify-center w-full my-6">
+            <div className='home text-black border-solid w-full h-full px-2 my-6'>
+                <div className={`home-inside flex justify-center w-full ${enableCreatePost? 'overflow-hidden max-h-[calc(100vh-6rem)]' : ''}`}>
                     <LeftBar />
                     <MidBar {...{detailedPost, setDetailedPost}} />
                     <RightBar />
@@ -40,14 +38,6 @@ const HomePage = () => {
                     :
                         <></>
                 }
-                
-                
-                {/* {
-                    enableCreatePost?
-                        <CreatePostCard />
-                        :
-                        <></>
-                } */}
             </div>
         </Spinner>
     )

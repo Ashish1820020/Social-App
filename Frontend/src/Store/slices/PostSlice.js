@@ -15,7 +15,6 @@ const initialState = {
     isCommentLoading: false,
     isCommentError: false,
     allPosts: [],
-    userPosts: [],
     detailedPost: null
 }
 
@@ -41,20 +40,22 @@ const postSlice = createSlice({
         });
         builder.addCase(getPostsApi.rejected, (state, action) => {
             state.isError = true;
-        });
-
-
-        builder.addCase(getUserPostApi.pending, (state, action) => {
-            state.isLoading = true;
-        });
-        builder.addCase(getUserPostApi.fulfilled, (state, action) => {
             state.isLoading = false;
-            state.isError = false;
-            state.userPosts = action?.payload;
         });
-        builder.addCase(getUserPostApi.rejected, (state, action) => {
-            state.isError = true;
-        });
+
+
+        // // GET POST OF PARTICULAR USER PROFILE
+        // builder.addCase(getUserPostApi.pending, (state, action) => {
+        //     state.isLoading = true;
+        // });
+        // builder.addCase(getUserPostApi.fulfilled, (state, action) => {
+        //     state.isLoading = false;
+        //     state.isError = false;
+        //     state.userPosts = action?.payload;
+        // });
+        // builder.addCase(getUserPostApi.rejected, (state, action) => {
+        //     state.isError = true;
+        // });
 
 
         builder.addCase(handleLikeUnLikeApi.pending, (state, action) => {

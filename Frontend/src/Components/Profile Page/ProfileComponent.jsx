@@ -4,13 +4,12 @@ import { TiMessages } from "react-icons/ti";
 import { FaCamera } from "react-icons/fa";
 
 
-const ProfileComponent = ({setProfileImgFile, previewProfileImg, setPreviewProfileImg, userData}) => {
+const ProfileComponent = ({setProfileImgFile, previewProfileImg, setPreviewProfileImg, userProfileData}) => {
 
     const handleProfileImgSelect = (e) => {
         setPreviewProfileImg(URL.createObjectURL(e.target.files[0]))
         setProfileImgFile(e.target.files[0])
     }
-
   return (
     <form action="put" encType="multipart/form-data" className='profile flex flex-col justify-center w-full h-48 rounded-lg p-2 bg-white'>
         <div className="profile-inside flex justify-between py-2 px-4">
@@ -31,7 +30,7 @@ const ProfileComponent = ({setProfileImgFile, previewProfileImg, setPreviewProfi
             </div>
             <div className="user-details-section w-[90%] flex justify-between">
                 <div className="user-details-left">
-                    <p className='text-[1.8rem] font-bold text-[#00000091]'>{userData.name}</p>
+                    <p className='text-[1.8rem] font-bold text-[#00000091]'>{userProfileData.name}</p>
                 </div>
                 <div className="user-details-right">
                     <div className=" flex gap-4 user-details-right-top">

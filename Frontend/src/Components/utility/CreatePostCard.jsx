@@ -26,8 +26,8 @@ const CreatePostCard = () =>{
 
 
   return (
-    <div className= "absolute h-full w-full top-0 right-0 flex justify-center items-center bg-[#00000028] z-10">
-        <form action="post" encType="multipart/form-data"  className='h-fit w-[36rem] bg-white border-2  rounded-3xl shadow-md'>
+    <div className= "absolute h-full w-full top-0 right-0 flex justify-center items-center bg-[#00000050] z-10">
+        <form action="post" encType="multipart/form-data"  className='h-fit max-h-[82vh] w-[46rem] overflow-auto no-scrollbar bg-white border-2 rounded-3xl shadow-md'>
             <div className='flex-row p-4'>
 
                 <div className='flex justify-between items-center text-center py-2 text-2xl font-semibold text-slate-900'>
@@ -40,7 +40,7 @@ const CreatePostCard = () =>{
                 </div>
                 <hr />
 
-                <div className='flex py-2 mt-2 gap-4 items-center'>
+                <div className='flex py-2 mt-4 gap-4 items-center'>
                     <img src={userData.avatar} alt="" className='img-hover h-12 w-12 border-black border-2 rounded-full'/>
                     <div className='flex-row'>
                         <p className= 'text-lg'>{userData.name}</p>
@@ -64,7 +64,7 @@ const CreatePostCard = () =>{
                     </div>
                     {file &&
                         <div className="selected-img my-4 rounded-md border-black border-2">
-                            <img className="w-100px h-100px object-cover border-r-0" alt=""
+                            <img className="w-full max-h-[600px] object-fit border-r-0" alt=""
                                 src={URL.createObjectURL(file)}
                             />
                         </div>
