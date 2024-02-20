@@ -13,19 +13,7 @@ export const getPostsApi = createAsyncThunk("getAllPosts", async () => {
   }
 });
 
-export const getUserPostApi = async (userId) => {
-  try {
-    const response = await axios.get(`/api/v1/post/${userId}`)
-    // console.log(response.data);
-    return response?.data?.posts;
-  } catch (error) {
-    console.log(error);
-    throw error;
-  }
-};
-
-
-// export const getUserPostApi = createAsyncThunk("getUserPosts", async (userId) => {
+// export const getUserPostApi = async (userId) => {
 //   try {
 //     const response = await axios.get(`/api/v1/post/${userId}`)
 //     // console.log(response.data);
@@ -34,13 +22,25 @@ export const getUserPostApi = async (userId) => {
 //     console.log(error);
 //     throw error;
 //   }
-// });
+// };
+
+
+export const getUserPostApi = createAsyncThunk("getUserPosts", async (userId) => {
+  try {
+    const response = await axios.get(`/api/v1/post/${userId}`)
+    // console.log(response.data);
+    return response?.data?.posts;
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+});
 
 
 export const addNewPostApi = createAsyncThunk("addNewPost", async (myPost) => {
   try{
     const response = await axios.post(`/api/v1/post`, myPost)
-    // console.log(response.data);
+    console.log(response.data);
     return response.data;
 
   }catch(error){

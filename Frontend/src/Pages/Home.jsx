@@ -13,7 +13,6 @@ const HomePage = () => {
     const { enableCreatePost } = useSelector(state => state.utilsSlice);
     const { detailedPost, isLoading } = useSelector(state => state.posts);
     
-    console.log("home");
     
     
     return( 

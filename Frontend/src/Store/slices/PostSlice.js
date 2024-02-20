@@ -44,32 +44,32 @@ const postSlice = createSlice({
         });
 
 
-        // // GET POST OF PARTICULAR USER PROFILE
-        // builder.addCase(getUserPostApi.pending, (state, action) => {
-        //     state.isLoading = true;
-        // });
-        // builder.addCase(getUserPostApi.fulfilled, (state, action) => {
-        //     state.isLoading = false;
-        //     state.isError = false;
-        //     state.userPosts = action?.payload;
-        // });
-        // builder.addCase(getUserPostApi.rejected, (state, action) => {
-        //     state.isError = true;
-        // });
+        // GET POST OF PARTICULAR USER PROFILE
+        builder.addCase(getUserPostApi.pending, (state, action) => {
+            state.isLoading = true;
+        });
+        builder.addCase(getUserPostApi.fulfilled, (state, action) => {
+            state.isLoading = false;
+            state.isError = false;
+            state.userPosts = action?.payload;
+        });
+        builder.addCase(getUserPostApi.rejected, (state, action) => {
+            state.isError = true;
+        });
         
 
-        // // GET POST OF PARTICULAR USER PROFILE
-        // builder.addCase(addNewPostApi.pending, (state, action) => {
-        //     state.isLoading = true;
-        // });
-        // builder.addCase(addNewPostApi.fulfilled, (state, action) => {
-        //     state.isLoading = false;
-        //     state.isError = false;
-        //     state.userPosts = action?.payload;
-        // });
-        // builder.addCase(addNewPostApi.rejected, (state, action) => {
-        //     state.isError = true;
-        // });
+        // GET POST OF PARTICULAR USER PROFILE
+        builder.addCase(addNewPostApi.pending, (state, action) => {
+            state.isLoading = true;
+        });
+        builder.addCase(addNewPostApi.fulfilled, (state, action) => {
+            state.isLoading = false;
+            state.isError = false;
+            state.userPosts = [action?.payload?.post, ...state.userPosts];;
+        });
+        builder.addCase(addNewPostApi.rejected, (state, action) => {
+            state.isError = true;
+        });
 
 
 

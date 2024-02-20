@@ -9,8 +9,6 @@ const createNewPost = async (req, res) => {
         const image = req.file;
         const queryObj = {caption: "", owner: req.user._id, likes: [], comments: []};
 
-        console.log(caption);
-
         if (image) {
             const upload = await cloudinary.uploader.upload(image.path);
             queryObj.image = {url: upload.secure_url};
@@ -21,16 +19,25 @@ const createNewPost = async (req, res) => {
             queryObj.caption = caption;
         };
        
-        const newPost = await PostModel.create(queryObj);
+        const newPost = await PostModel
+                        .create(queryObj);
         await newPost.save();
 
+        console.log(newPost);
+        
         const user = await UsersModel.findById(req.user._id);
         
         user.posts.push(newPost._id);
         await user.save();
+        
 
-        res.status(200).json({success: true, massage: "New Post pushed successfully"});
+        const newPostObj = await PostModel
+                                .findById(newPost._id)
+                                .populate('owner');
+
+        res.status(200).json({success: true, massage: "New Post pushed successfully", post: newPostObj});
     } catch (error) {
+        console.log(error);
         res.status(500).json({
             success: false,
             message: error.message,

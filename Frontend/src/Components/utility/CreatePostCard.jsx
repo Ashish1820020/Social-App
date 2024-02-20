@@ -12,21 +12,34 @@ const CreatePostCard = () =>{
     const dispatch = useDispatch();
     const [file, setFile] = useState(null);
     const [desc, setDesc] = useState("");
+    const [isLoading, setIsLoading] = useState(false);
+    const [isError, setIsError] = useState(false);
     const { userData } = useSelector(state => state.auth);
     const canPost = (file=== null && desc.length === 0)? false : true;
- 
+
+    
     const handleClick = (e) => {
         e.preventDefault();
         const myForm = new FormData();
         myForm.append('caption', desc);
         myForm.append('image', file);
-        dispatch(addNewPostApi(myForm));
+        setIsLoading(true);
+        dispatch(addNewPostApi(myForm))
+        .then(() => {
+            setIsLoading(false);
+            dispatch(setEnableCreatePost());
+        })
+        .catch(() => {
+            setIsLoading(false);
+            setIsError(true)
+        })
     }
 
 
   return (
     <div className= "absolute h-full w-full top-0 right-0 flex justify-center items-center bg-[#00000050] z-10">
-        <form action="post" encType="multipart/form-data"  className='h-fit max-h-[82vh] w-[46rem] overflow-auto no-scrollbar bg-white border-2 rounded-3xl shadow-md'>
+        <form action="post" encType="multipart/form-data"  
+        className='h-fit max-h-[82vh] w-[46rem] overflow-auto no-scrollbar bg-white border-2 rounded-3xl shadow-md'>
             <div className='flex-row p-4'>
 
                 <div className='flex justify-between items-center text-center py-2 text-2xl font-semibold text-slate-900'>
@@ -114,7 +127,12 @@ const CreatePostCard = () =>{
                     <button onClick={handleClick}
                     disabled={!canPost}
                     className={`text-xl rounded-md ${canPost? 'bg-[#3578E5]' : 'bg-[#1f1e1e98]'} text-white w-full py-2`}>
-                        Post
+                        {
+                            isLoading?
+                                '...Posting'
+                            :
+                                'Post'
+                        }
                     </button>
                 </div>
             </div>
