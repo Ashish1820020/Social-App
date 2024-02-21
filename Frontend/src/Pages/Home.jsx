@@ -3,7 +3,6 @@ import LeftBar from "../Components/Home/LeftBar";
 import MidBar from "../Components/Home/MidBar";
 import RightBar from "../Components/Home/RightBar";
 import { useSelector } from "react-redux";
-import CreatePostCard from "../Components/utility/CreatePostCard";
 import PostDetailsContainer from "../Components/Posts/PostDetailsContainer";
 import { setDetailedPost } from "../Store/slices/PostSlice";
 import Spinner from "../Utils/Spinner";
@@ -29,13 +28,6 @@ const HomePage = () => {
                     detailedPost?
                         <PostDetailsContainer detailedPost={detailedPost} />
                     :
-                        <></>
-                }
-
-                {
-                    enableCreatePost?
-                        <CreatePostCard />
-                        :
                         <></>
                 }
             </div>

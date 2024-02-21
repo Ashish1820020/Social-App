@@ -3,12 +3,12 @@ import Map from "../../assets/map.png";
 import Friend from "../../assets/friend.png";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import CreatePostCard from "../utility/CreatePostCard";
 import { setEnableCreatePost } from "../../Store/slices/utils"; 
 
 
-const Share = () => {
+const Share = ({from}) => {
 
+  console.log(from);
   const dispatch =  useDispatch();
   const { userData } = useSelector(state => state.auth);
 
@@ -27,7 +27,6 @@ const Share = () => {
               type="text"
               className="text-blue-500 w-3/4 h-10 bg-gray-300 rounded-3xl pl-3"
               placeholder={`What's on your mind ${userData && userData.name}?`}
-              onChange={(e) => setDesc(e.target.value)}
               onClick={() => dispatch(setEnableCreatePost())}
             />
           </div>

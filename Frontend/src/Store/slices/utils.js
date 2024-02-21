@@ -13,24 +13,10 @@ const utilsSlice = createSlice({
     initialState,
     reducers: {
         setEnableCreatePost(state, action){
+            console.log("set");
             state.enableCreatePost = !state.enableCreatePost;
         }
-    },
-
-    // extraReducers: (builder) => {
-    //     builder.addCase(getPostsApi.pending, (state, action) => {
-    //         state.isLoading = true;
-    //     });
-    //     builder.addCase(getPostsApi.fulfilled, (state, action) => {
-    //         state.isLoading = false;
-    //         state.isError = false;
-    //         state.allPosts = action?.payload?.posts;
-    //     });
-    //     builder.addCase(getPostsApi.rejected, (state, action) => {
-    //         state.isError = true;
-    //         state.isLoggedIn = false;
-    //     });
-    // }
+    }
 });
 
 

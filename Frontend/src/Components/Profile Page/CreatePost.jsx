@@ -3,7 +3,6 @@ import Map from "../../assets/map.png";
 import Friend from "../../assets/friend.png";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import CreatePostCard from "../utility/CreatePostCard";
 import { setEnableCreatePost } from "../../Store/slices/utils"; 
 
 

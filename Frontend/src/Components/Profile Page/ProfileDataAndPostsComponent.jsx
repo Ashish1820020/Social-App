@@ -1,6 +1,5 @@
 import React from 'react'
 import UserDescription from './UserDescription'
-import CreatePostCard from '../utility/CreatePostCard'
 import Share from '../SharePost/Share'
 import MyPosts from './MyPosts'
 
@@ -17,7 +16,7 @@ const ProfileDataAndPostsComponent = ({detailedPost, setDetailedPost}) => {
 
       <div className="profile-bottom-right w-[60%]">
         <div className="flex flex-col gap-6 profile-bottom-right-inside">
-          <Share />
+          <Share from='profile' />
           <MyPosts {...{detailedPost, setDetailedPost}} />
         </div>
       </div>

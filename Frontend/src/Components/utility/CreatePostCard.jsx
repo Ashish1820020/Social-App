@@ -24,9 +24,11 @@ const CreatePostCard = () =>{
         myForm.append('caption', desc);
         myForm.append('image', file);
         setIsLoading(true);
+        console.log('create posts card');
         dispatch(addNewPostApi(myForm))
         .then(() => {
             setIsLoading(false);
+            console.log("log create post card");
             dispatch(setEnableCreatePost());
         })
         .catch(() => {
@@ -92,14 +94,14 @@ const CreatePostCard = () =>{
                         <div className="file-select">
                             <input
                             type="file"
-                            id="file1"
+                            id="post_image"
                             name='file'
                             accept="image/*"
                             style={{ display: "none" }}
                             onChange={(e) => setFile(e.target.files[0])}
                             />
                             
-                            <label htmlFor="file1">
+                            <label htmlFor="post_image">
                                 <div className="flex items-center cursor-pointer gap-2">
                                     <img src={Image} alt="" className="h-7"/>
                                     <span className="text-12px text-black">Add Image</span>

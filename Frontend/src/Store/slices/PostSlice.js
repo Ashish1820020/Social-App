@@ -63,9 +63,10 @@ const postSlice = createSlice({
             state.isLoading = true;
         });
         builder.addCase(addNewPostApi.fulfilled, (state, action) => {
+            state.allPosts = [action?.payload?.post, ...state.allPosts];
+            // state.userPosts = [action?.payload?.post, ...state.userPosts];
             state.isLoading = false;
             state.isError = false;
-            state.userPosts = [action?.payload?.post, ...state.userPosts];;
         });
         builder.addCase(addNewPostApi.rejected, (state, action) => {
             state.isError = true;

@@ -1,4 +1,3 @@
-import CreatePostCard from "../utility/CreatePostCard";
 import CommonLoading from "../Loaders/CommonLoaders";
 import Share from "../SharePost/Share";
 import Stories from "./Stories";
@@ -7,12 +6,11 @@ import { useDispatch, useSelector } from "react-redux";
 import PostLoader from "../../Utils/PostLoader";
 import { getPostsApi } from "../../Store/api/postApi";
 import { useEffect } from "react";
+import PostsContainerComponent from "./PostsContainerComponent";
 
 const MidBar = () => {
   const { isLoading, allPosts, isError } = useSelector(state => state.posts);
   const dispatch = useDispatch();
-  console.log(isLoading);
-
 
   useEffect(() => {
       dispatch(getPostsApi());
@@ -23,14 +21,10 @@ const MidBar = () => {
     
     <div className="mid-bar w-[840px] max-w-[850px] px-[2rem]  border-solid md:flex">
         <div className="mid-inside h-full flex flex-col w-full p-2">
-          <Share />
+          <Share from='home' />
 
           <PostLoader isLoading={isLoading}>
-            {
-              allPosts?.map((elem) => {
-                return <PostCard key={elem._id} {...{elem}}/>
-              })
-            }
+            <PostsContainerComponent allPosts={allPosts} />
           </PostLoader>
         </div>
       </div>
