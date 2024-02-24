@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   MdNotificationsActive,
   MdMessage,
@@ -13,6 +13,8 @@ import { logoutApi } from "../../Store/api/authApi";
 import { useNavigate } from "react-router-dom";
 
 const Navbar = () => {
+  const [profileMenu, setProfileMenu] = useState(false);
+  console.log(profileMenu);
   const mode = "light";
   const dispatch = useDispatch();
   const navigate = useNavigate()
@@ -34,16 +36,24 @@ const Navbar = () => {
         ) : (
           <MdLightMode className="mx-4 cursor-pointer" />
         )}
-        <MdMessage className="mx-2 cursor-pointer" />
+        <MdMessage className="mx-2 text-xl cursor-pointer" />
         <MdNotificationsActive className="mx-4 cursor-pointer" />
-        <div className="h-[20px] w-[20px] border-2 border-black rounded-full relative">
-          <div className="w-[6rem] border-2 border-red-500 absolute top-6 left-[-6rem] bg-white">
+        <div className="profile-pic h-[20px] w-[20px] border-2 border-black rounded-full relative" onClick={() => setProfileMenu(!profileMenu)}>
+          <div className={`w-[8rem] absolute ${profileMenu? 'top-4' : 'top-[-1000px] none'} left-[-7rem] p-4 py-6 z-50`}>
             <button 
-            className="px-2 py-2 w-full hover:bg-[#a39f9f70] text-2xl font-body"
+            className="px-2 py-2 w-full hover:bg-[#a39f9f70] hover:text-white text-2xl font-body bg-white"
+            >profile</button>
+
+
+            <button 
+            className="px-2 py-2 w-full hover:bg-[#a39f9f70] hover:text-white text-2xl font-body bg-white"
             onClick={() =>{
               dispatch(logoutApi())
               navigate('/')
             }}>logout</button>
+
+            <button 
+            className="px-2 py-2 w-full hover:bg-[#a39f9f70] hover:text-white text-2xl font-body bg-white">others</button>
           </div>
         </div>
       </div>
