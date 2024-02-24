@@ -17,7 +17,7 @@ const PostDetailsContainer = ({postDetails, setPostDetails}) => {
     <div className='detailed-post-container fixed h-full w-full z-10 top-0 left-0 border-black border-2 bg-[rgba(0,0,0,0.3)]'>
         <div className='detailed-post-container-inside flex justify-center items-center h-full w-full'>
             
-            <div className='detailed-post-card max-w-[700px] w-[800px] h-[94%] bg-white rounded-[8px] relative'>
+            <div className='detailed-post-card max-w-[700px] w-[800px] max-h-[94%] bg-white rounded-[8px] relative'>
                 <div className='detailed-post-card-inside h-full relative rounded-[8px]'>
 
 
@@ -44,8 +44,8 @@ const PostDetailsContainer = ({postDetails, setPostDetails}) => {
 
 
                     {/* DETAILED POST MAIN SECTION */}
-                    <div className='post-details-mid my-1'>
-                        <div className='post-details-mid-inside'>
+                    <div className='post-details-mid max-h-[calc(90vh-180px)] my-1'>
+                        <div className='post-details-mid-inside max-h-[calc(90vh-180px)] overflow-y-scroll'>
                             <PostsDetails {...{ ...postDetails? postDetails : detailedPost, userData, dispatch }} />
                             <PostDetailsCommentSection comments={comments}/>
                         </div>

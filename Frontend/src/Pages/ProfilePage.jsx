@@ -12,6 +12,7 @@ import PostDetailsContainer from "../Components/Posts/PostDetailsContainer";
 const ProfilePage = () => {
 
     const { userData } = useSelector(state => state.auth);
+    const { enableCreatePost } = useSelector(state => state.utilsSlice);
     const [ isLoading, setIsLoading ] = useState(false);
     const [ detailedPost, setDetailedPost ] = useState(null);
     const [ userProfileData, setUserProfileData ] = useState(null);
@@ -60,7 +61,7 @@ const ProfilePage = () => {
     }, []);
 
     return( 
-        <>
+        <div className={`profile-page w-full ${enableCreatePost? 'overflow-hidden max-h-[calc(100vh-6rem)]' : ''}`}>
             {
                 (coverImgFile || profileImgFile) &&
                 <div className="flex justify-between items-center w-full h-14 bg-[#00000048] absolute z-10">
@@ -81,7 +82,7 @@ const ProfilePage = () => {
                     <div>Error occurred</div>
                     :
                     userProfileData &&
-                    <div className="profile-page flex items-center justify-center w-full">
+                    <div className={`flex items-center justify-center w-full`}>
                         <div className="flex flex-col gap-8 profile-page-inside w-[1400px] my-10">
                             <ProfileCoverImage {...{setCoverImgFile, previewCoverImg, setPreviewCoverImg}} />
                             <ProfileComponent {...{setProfileImgFile, previewProfileImg, setPreviewProfileImg, userProfileData}} />
@@ -99,7 +100,7 @@ const ProfilePage = () => {
 
                 
             </Spinner>
-        </>
+        </div>
     )
 }
 

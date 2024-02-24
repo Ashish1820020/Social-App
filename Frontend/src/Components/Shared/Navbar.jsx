@@ -10,7 +10,7 @@ import { CgProfile } from "react-icons/cg";
 import Logo from "../../assets/SocialEcho.png";
 import { useDispatch } from "react-redux";
 import { logoutApi } from "../../Store/api/authApi";
-import { useNavigate } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 
 const Navbar = () => {
   const [profileMenu, setProfileMenu] = useState(false);
@@ -21,9 +21,11 @@ const Navbar = () => {
   return (
     <div className="shadow bg-white flex items-center justify-between px-5 h-16">
 
-      <div className="left flex flex-col text-center justify-center">
-        <img className="w-36 h-5" src={Logo} />
-      </div>
+      <NavLink to={'/home'}>
+        <div className="left flex flex-col text-center justify-center">
+          <img className="w-36 h-5" src={Logo} />
+        </div>
+      </NavLink>
 
       <div className="h-10 text-black py-1 bg-gray-50 border w-full hidden sm:flex items-center justify-between rounded-full text-sm shadow-sm focus:shadow-outline-blue focus:border-blue-500 transition duration-300 pl-5 pr-5 md:w-[420px] lg:w-[660px] ">
         <input type="text" placeholder="search for peoples" name="search" className="bg-gray-50 focus:outline-none md:w-[220px]" />

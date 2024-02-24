@@ -21,6 +21,11 @@ input[type=file]::file-selector-button {
     cursor: pointer;
 }
 
+.post-details-mid-inside {
+    scrollbar-color: #9292a8 #e0e0e0;
+    scrollbar-width: thin;
+    scrollbar-gutter: stable;
+}
 
 .detailed-post-card-inside{
     overflow: scroll;

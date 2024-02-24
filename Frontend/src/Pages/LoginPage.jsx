@@ -11,8 +11,9 @@ const LoginPage = () => {
     const { isLoggedIn, userData } = useSelector(state => state.auth);
     const navigate = useNavigate();
     const dispatch = useDispatch();
-    
 
+    console.log(enableCreatePost);
+    console.log(`${enableCreatePost? 'overflow-hidden max-h-[calc(100vh-6rem)]' : ''}`);
 
   const handleLogin = (e, {email, password}) => {
     e.preventDefault();
@@ -37,7 +38,7 @@ const LoginPage = () => {
   }
 
     return (
-        <div className=" bg-white h-full md: mx-auto">
+        <div className={`bg-white h-full md: mx-auto`}>
             <div className="text-gray text-center text-lg">Social Circle</div>
             <hr className="border-none h-px my-20px bg-black my-2" />
 

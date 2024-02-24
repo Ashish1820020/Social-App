@@ -17,7 +17,7 @@ const HomePage = () => {
     return( 
         <Spinner isLoading={auth.isLoading}>
             <div className='home text-black border-solid w-full h-full px-2 my-6'>
-                <div className={`home-inside flex justify-center w-full ${enableCreatePost? 'overflow-hidden max-h-[calc(100vh-6rem)]' : ''}`}>
+                <div className={`home-inside flex justify-center w-full ${(enableCreatePost|| detailedPost)? 'overflow-hidden max-h-[calc(100vh-6rem)]' : ''}`}>
                     <LeftBar />
                     <MidBar {...{detailedPost, setDetailedPost}} />
                     <RightBar />
