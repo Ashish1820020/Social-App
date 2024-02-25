@@ -10,6 +10,7 @@ import PostsDetails from "./Components/Posts/PostsDetails";
 import PostDetailsContainer from "./Components/Posts/PostDetailsContainer";
 import RouterComponent from "./Router/RouterComponent";
 import { isValidToken } from "./Utils/Auth";
+import { routesArray } from "./Utils/RoutesArray";
 
 
 
@@ -24,7 +25,11 @@ const App = () => {
         <CssBaseline />
 
         <div className="root-inside h-full w-full relative font-poppins">
-          <Navbar />
+          {
+            routesArray.some((elem) => (elem.path_url === location.pathname) && elem.authenticationRequires) 
+            &&
+            <Navbar />
+          }
           <RouterComponent />
           {
             enableCreatePost?

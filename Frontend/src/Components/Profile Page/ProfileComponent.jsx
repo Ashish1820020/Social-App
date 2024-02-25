@@ -2,10 +2,16 @@ import React from 'react';
 import { IoPersonAdd } from "react-icons/io5";
 import { TiMessages } from "react-icons/ti";
 import { FaCamera } from "react-icons/fa";
+import { useSelector } from 'react-redux';
 
 
 const ProfileComponent = ({setProfileImgFile, previewProfileImg, setPreviewProfileImg, userProfileData}) => {
 
+    
+    const { userData } = useSelector(state => state.auth);
+    console.log('====================================');
+    console.log(userData);
+    console.log('====================================');
     const handleProfileImgSelect = (e) => {
         setPreviewProfileImg(URL.createObjectURL(e.target.files[0]))
         setProfileImgFile(e.target.files[0])

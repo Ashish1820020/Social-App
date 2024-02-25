@@ -12,9 +12,6 @@ const LoginPage = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
-    console.log(enableCreatePost);
-    console.log(`${enableCreatePost? 'overflow-hidden max-h-[calc(100vh-6rem)]' : ''}`);
-
   const handleLogin = (e, {email, password}) => {
     e.preventDefault();
     dispatch(loginApi({email, password}))

@@ -61,7 +61,7 @@ const ProfilePage = () => {
     }, []);
 
     return( 
-        <div className={`profile-page w-full ${enableCreatePost? 'overflow-hidden max-h-[calc(100vh-6rem)]' : ''}`}>
+        <div className={`profile-page w-full ${(enableCreatePost || detailedPost)? 'overflow-hidden max-h-[calc(100vh-6rem)]' : ''}`}>
             {
                 (coverImgFile || profileImgFile) &&
                 <div className="flex justify-between items-center w-full h-14 bg-[#00000048] absolute z-10">

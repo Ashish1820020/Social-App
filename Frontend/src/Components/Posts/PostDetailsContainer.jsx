@@ -45,7 +45,7 @@ const PostDetailsContainer = ({postDetails, setPostDetails}) => {
 
                     {/* DETAILED POST MAIN SECTION */}
                     <div className='post-details-mid max-h-[calc(90vh-180px)] my-1'>
-                        <div className='post-details-mid-inside max-h-[calc(90vh-180px)] overflow-y-scroll'>
+                        <div className='post-details-mid-inside max-h-[calc(90vh-180px)] overflow-y-auto'>
                             <PostsDetails {...{ ...postDetails? postDetails : detailedPost, userData, dispatch }} />
                             <PostDetailsCommentSection comments={comments}/>
                         </div>

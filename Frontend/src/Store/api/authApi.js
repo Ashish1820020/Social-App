@@ -48,16 +48,19 @@ export const getUserProfileData = async (userId) => {
     throw error;
   }
 };
-// export const getUserProfileData = createAsyncThunk("getUserProfileData", async (userId) => {
-//   try {
-//     const response = await axios.get(`/api/v1/auth/user/${userId}`);
-//     // console.log(response);
-//     return response.data;
-//   } catch (error) {
-//     // console.log(error);
-//     throw error;
-//   }
-// });
+
+
+export const searchUserWithNameApi = async (search) => {
+  console.log(`/auth/users?search=${search}`);
+  try {
+    const response = await axios.get(`/api/v1/auth/users?search=${search}`);
+    console.log(response);
+    return response.data;
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+};
 
 
 export const updateUserProfileApi = createAsyncThunk("updateUserProfile", async (updateForm) => {

@@ -8,8 +8,8 @@ const ProfileDataAndPostsComponent = ({detailedPost, setDetailedPost}) => {
   return (
     <div className='profile-bottom flex justify-between'>
 
-      <div className="profile-bottom-left w-[38%]">
-        <div className="profile-bottom-left-inside">
+      <div className="profile-bottom-left w-[38%] relative top-0">
+        <div className="profile-bottom-left-inside sticky top-6">
             <UserDescription />
         </div>
       </div>

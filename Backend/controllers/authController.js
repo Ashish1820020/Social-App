@@ -147,14 +147,6 @@ const updateProfile = async (req, res, next) => {
 
 
 
-
-
-
-
-
-
-
-
 /**
  * This handler handles user logout.
  * send GET Request at /api/v1/auth/logout
@@ -235,37 +227,92 @@ const forgotPassword = async (req, res, next) => {
  * body contains {oldPassword, newPassword1, newPassword2}
  * */
 
-const followUser = async (req, res) => {
-  try {
-    const userToFollow = await UserModel.findById(req.params.id);
-    const loggedInUser = await UserModel.findById(req.user._id);
 
+
+const acceptOrRejectFriendRequestOrUnfriendAnUser = async (req, res) => {
+
+  try {
     
-    if (!userToFollow){
+    const otherUser = await UserModel.findById(req.params.id);
+    const loggedInUser = await UserModel.findById(req.user._id);
+    
+    if (!otherUser){
       return res
       .status(401)
       .json({ success: false, massage: "User not found"});
     }
 
-    if(loggedInUser.following.includes(userToFollow._id)){
-      let index = loggedInUser.following.indexOf(userToFollow._id);
-
-      loggedInUser.following.splice(index, 1);
+    // Unfriend the user if he is a friend
+    if(loggedInUser.friends.includes(otherUser._id) && otherUser.friends.includes(loggedInUser._id)){
+        
+      let index = loggedInUser.friends.indexOf(otherUser._id);
+      loggedInUser.friends.splice(index, 1);
       
-      index = userToFollow.followers.indexOf(loggedInUser._id);
+      index = otherUser.friends.indexOf(loggedInUser._id);
+      otherUser.friends.splice(index, 1);
       
-      userToFollow.followers.splice(index, 1);
+      await otherUser.save();
+      await loggedInUser.save();
+      
+      return res.status(200).json({ success: false, massage: "Unfriend the user successfully"})
+    }
 
-      await userToFollow.save();
+  
+    const { action } = req.query;
+
+    // accepted the friend request
+    if(action === 'accepted'){
+      loggedInUser.friends.push(otherUser._id);
+      otherUser.friends.push(loggedInUser._id);
+    }
+
+
+    let index = otherUser.sendFriendRequest.indexOf(loggedInUser._id);
+    otherUser.sendFriendRequest.splice(index, 1);
+    
+    index = loggedInUser.receivedFriendRequest.indexOf(otherUser._id);
+    loggedInUser.receivedFriendRequest.splice(index, 1);
+    
+    await otherUser.save();
+    await loggedInUser.save();
+  
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+const sendOrCancelFriendRequest = async (req, res) => {
+  try {
+    const otherUser = await UserModel.findById(req.params.id);
+    const loggedInUser = await UserModel.findById(req.user._id);
+
+    
+    if (!otherUser){
+      return res
+      .status(401)
+      .json({ success: false, massage: "User not found"});
+    }
+
+
+    // cancel the friend request the user
+    if(loggedInUser.sendFriendRequest.includes(otherUser._id) && otherUser.receivedFriendRequest.includes(loggedInUser._id)){
+
+      let index = loggedInUser.sendFriendRequest.indexOf(otherUser._id);
+      loggedInUser.sendFriendRequest.splice(index, 1);
+      
+      index = otherUser.receivedFriendRequest.indexOf(loggedInUser._id);
+      otherUser.receivedFriendRequest.splice(index, 1);
+
+      await otherUser.save();
       await loggedInUser.save();
 
-      return res.status(401).json({ success: false, massage: "Un-follow successfully"})
+      return res.status(200).json({ success: false, massage: "un-send friend request successfully"})
     }
-    
-    userToFollow.followers.push(loggedInUser._id);
-    loggedInUser.following.push(userToFollow._id);
 
-    await userToFollow.save();
+    otherUser.receivedFriendRequest.push(loggedInUser._id);
+    loggedInUser.sendFriendRequest.push(otherUser._id);
+
+    await otherUser.save();
     await loggedInUser.save();
 
     return res.status(401).json({ success: false, massage: "Following added successfully"});
@@ -275,7 +322,6 @@ const followUser = async (req, res) => {
     res.status(500).json({ success: false, massage: error });
   }
 };
-
 
 
 
@@ -300,8 +346,27 @@ const getUserProfileData = async (req, res) => {
 
 
 
+const getUsers = async (req, res) => {
+  try {
+    const { search } = req.query;
+
+    const queryObject = {};
+
+    if(search)
+      queryObject.name = { $regex: search, $options: 'i' };
+
+    const userData = await UserModel
+                          .find(queryObject)
+                          .select("_id name avatar");
+
+    return res.status(200).json({success: true, msg: 'Some users found', data: userData});
+    
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ success: false, massage: error });
+  }
+};
 
 
 
-
-module.exports = { registerUser, loginUser, followUser, logout, updateProfile, forgotPassword, verifyAuthToken, getUserProfileData };
+module.exports = { registerUser, loginUser, logout, updateProfile, forgotPassword, verifyAuthToken, getUserProfileData, getUsers, sendOrCancelFriendRequest, acceptOrRejectFriendRequestOrUnfriendAnUser };
