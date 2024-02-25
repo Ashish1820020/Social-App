@@ -17,8 +17,10 @@ import { routesArray } from "./Utils/RoutesArray";
 const App = () => {
   // const mode = "light";
   // const theme = useMemo(() => createTheme(themeSettings(mode)), [mode]);
+  const { userData } = useSelector(state => state.auth);
   const { enableCreatePost } = useSelector(state => state.utilsSlice);
-
+  // console.log(routesArray.some((elem) => (elem.path_url === location.pathname) && elem.authenticationRequires));
+  // console.log(userData);
   return (
     <BrowserRouter>
       {/* <ThemeProvider theme={theme}> */}
@@ -26,7 +28,9 @@ const App = () => {
 
         <div className="root-inside h-full w-full relative font-poppins">
           {
-            routesArray.some((elem) => (elem.path_url === location.pathname) && elem.authenticationRequires) 
+            // routesArray.some((elem) => (elem.path_url === location.pathname) && elem.authenticationRequires) 
+            // &&
+            userData
             &&
             <Navbar />
           }

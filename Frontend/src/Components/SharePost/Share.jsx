@@ -8,7 +8,6 @@ import { setEnableCreatePost } from "../../Store/slices/utils";
 
 const Share = ({from}) => {
 
-  console.log(from);
   const dispatch =  useDispatch();
   const { userData } = useSelector(state => state.auth);
 

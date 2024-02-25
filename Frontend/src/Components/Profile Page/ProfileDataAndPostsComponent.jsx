@@ -3,7 +3,7 @@ import UserDescription from './UserDescription'
 import Share from '../SharePost/Share'
 import MyPosts from './MyPosts'
 
-const ProfileDataAndPostsComponent = ({detailedPost, setDetailedPost}) => {
+const ProfileDataAndPostsComponent = ({detailedPost, setDetailedPost, userData, userProfileData}) => {
 
   return (
     <div className='profile-bottom flex justify-between'>
@@ -16,7 +16,10 @@ const ProfileDataAndPostsComponent = ({detailedPost, setDetailedPost}) => {
 
       <div className="profile-bottom-right w-[60%]">
         <div className="flex flex-col gap-6 profile-bottom-right-inside">
-          <Share from='profile' />
+          {
+            userData._id === userProfileData._id &&
+            <Share from='profile' />
+          }
           <MyPosts {...{detailedPost, setDetailedPost}} />
         </div>
       </div>

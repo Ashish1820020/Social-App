@@ -40,6 +40,10 @@ const ProfilePage = () => {
     }
 
     useEffect(() => {
+    }, [userProfileData]);
+
+
+    useEffect(() => {
         const profileId = location.pathname.split('/')[2]
         const fetchProfileData = async () => {
             setIsLoading(true);
@@ -86,7 +90,7 @@ const ProfilePage = () => {
                         <div className="flex flex-col gap-8 profile-page-inside w-[1400px] my-10">
                             <ProfileCoverImage {...{setCoverImgFile, previewCoverImg, setPreviewCoverImg}} />
                             <ProfileComponent {...{setProfileImgFile, previewProfileImg, setPreviewProfileImg, userProfileData}} />
-                            <ProfileDataAndPostsComponent {...{detailedPost, setDetailedPost}} />
+                            <ProfileDataAndPostsComponent {...{detailedPost, setDetailedPost, userProfileData, userData}} />
                         </div>
                     </div>
                 }

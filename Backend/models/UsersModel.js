@@ -68,7 +68,49 @@ const userSchema = mongoose.Schema({
             type: mongoose.Schema.Types.ObjectId,
             ref: "Users"
         }
-    ]
+    ],
+    
+    userDetails: {
+        addresses: [
+            {
+                city: {
+                    type: String
+                },
+                country: {
+                    type: String
+                }
+            }
+        ],
+        schooling: [
+            {
+                institution: {
+                    type: String
+                },
+                course: {
+                    type: String
+                },
+                duration: {
+                    type: String
+                }
+            }
+        ],
+        work: [
+            {
+                company: {
+                    type: String
+                },
+                position: {
+                    type: String
+                },
+                duration: {
+                    type: String
+                },
+                town: {
+                    type: String
+                }
+            }
+        ]
+    }
 });
 
 

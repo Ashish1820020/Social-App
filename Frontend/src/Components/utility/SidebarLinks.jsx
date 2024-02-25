@@ -1,7 +1,7 @@
 import React from 'react'
 import { useSelector } from 'react-redux';
 import { IoPeople } from "react-icons/io5";
-import { useNavigate } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 
 const SidebarLinks = ({index}) => {
     
@@ -20,14 +20,16 @@ const SidebarLinks = ({index}) => {
     }
     else if(index === 2){
         return (
-          <div className='w-full rounded-lg'>
-              <div className='flex items-center gap-3 py-3 p-2 hover:bg-[#80808028] rounded-lg'>
-                <div className="icon-hover icon">
-                    <IoPeople className='h-6 w-6 text-[#1876f2ad]' />
+            <NavLink to={'/friends'} className='hover:text-black'>
+                <div className='w-full rounded-lg '>
+                    <div className='flex items-center gap-3 py-3 p-2 hover:bg-[#80808028] rounded-lg'>
+                        <div className="icon-hover icon">
+                            <IoPeople className='h-6 w-6 text-[#1876f2ad]' />
+                        </div>
+                        <p className='text-lg font-medium'>Find Friends</p>
+                    </div>
                 </div>
-                <p className='text-lg font-medium'>Find Friends</p>
-              </div>
-          </div>
+            </NavLink>
         )
     }
 }

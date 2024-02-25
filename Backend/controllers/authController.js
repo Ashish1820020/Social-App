@@ -93,6 +93,7 @@ const loginUser = async (req, res) => {
       return res.status(401).json({ success: false, massage: "Either Email or password is wrong" });
     }
 
+    console.log(user);
     sendToken(user, 201, res);
 
   } catch (error) {
@@ -254,19 +255,19 @@ const acceptOrRejectFriendRequestOrUnfriendAnUser = async (req, res) => {
       await otherUser.save();
       await loggedInUser.save();
       
-      return res.status(200).json({ success: false, massage: "Unfriend the user successfully"})
+      return res.status(200).json({ success: false, massage: "Unfriend the user successfully", user: loggedInUser})
     }
-
-  
+    
+    
     const { action } = req.query;
-
+    
     // accepted the friend request
     if(action === 'accepted'){
       loggedInUser.friends.push(otherUser._id);
       otherUser.friends.push(loggedInUser._id);
     }
-
-
+    
+    
     let index = otherUser.sendFriendRequest.indexOf(loggedInUser._id);
     otherUser.sendFriendRequest.splice(index, 1);
     
@@ -275,11 +276,15 @@ const acceptOrRejectFriendRequestOrUnfriendAnUser = async (req, res) => {
     
     await otherUser.save();
     await loggedInUser.save();
-  
+    
+    return res.status(200).json({ success: false, massage: "Unfriend the user successfully", user: loggedInUser})
   } catch (error) {
     console.log(error);
   }
 }
+
+
+
 
 const sendOrCancelFriendRequest = async (req, res) => {
   try {
@@ -306,7 +311,7 @@ const sendOrCancelFriendRequest = async (req, res) => {
       await otherUser.save();
       await loggedInUser.save();
 
-      return res.status(200).json({ success: false, massage: "un-send friend request successfully"})
+      return res.status(200).json({ success: false, massage: "un-send friend request successfully", user: loggedInUser})
     }
 
     otherUser.receivedFriendRequest.push(loggedInUser._id);
@@ -315,7 +320,7 @@ const sendOrCancelFriendRequest = async (req, res) => {
     await otherUser.save();
     await loggedInUser.save();
 
-    return res.status(401).json({ success: false, massage: "Following added successfully"});
+    return res.status(200).json({ success: false, massage: "send friend request to the user successfully", user: loggedInUser});
     
   } catch (error) {
     console.log(error);

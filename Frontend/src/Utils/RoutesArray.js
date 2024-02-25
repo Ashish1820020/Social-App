@@ -1,4 +1,4 @@
-import { HomePage, LoginPage, PageNotFoundPage, ProfilePage } from "../Pages";
+import { Friends, HomePage, LoginPage, PageNotFoundPage, ProfilePage } from "../Pages";
 
 export const routesArray = [
 
@@ -23,10 +23,17 @@ export const routesArray = [
     },
 
     {
+        path_url: '/friends',
+        component: Friends,
+        authenticationRequires:  true
+    },
+
+    {
         path_url: '/profile/:userId',
         component: ProfilePage,
         authenticationRequires: true 
     },
+
     {
         path_url: '*',
         component: PageNotFoundPage,

@@ -19,7 +19,7 @@ router.route('/auth/updateprofile').put(isAuthenticated, uploadFields, updatePro
 
 router.route('/auth/forgotpassword').patch(isAuthenticated, forgotPassword);
 
-router.route('/auth/friend-request/:id').post(isAuthenticated, sendOrCancelFriendRequest);
+router.route('/auth/friend-request/:id').get(isAuthenticated, sendOrCancelFriendRequest);
 
 router.route('/auth/manage-friend/:id').post(isAuthenticated, acceptOrRejectFriendRequestOrUnfriendAnUser);
 

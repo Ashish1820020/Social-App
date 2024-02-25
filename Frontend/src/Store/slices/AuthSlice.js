@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { getUserProfileData, loginApi, logoutApi, signupApi, updateUserProfileApi } from "../api/authApi";
+import { getUserProfileData, loginApi, logoutApi, manageFriends, sendOrCancelFriendRequest, signupApi, updateUserProfileApi } from "../api/authApi";
 
 const getUserData = () => {
     const localUserData = localStorage.getItem("userData");
@@ -98,19 +98,34 @@ const authSlice = createSlice({
         });
 
 
-        // // GET USER PROFILE DATA
-        // builder.addCase(getUserProfileData.pending, (state, action) => {
-        //     state.isLoading = true;
-        // });
-        // builder.addCase(getUserProfileData.fulfilled, (state, action) => {
-        //     state.isLoading = false;
-        //     state.isError = false;
-        //     state.userProfileData = action?.payload?.data;
-        // });
-        // builder.addCase(getUserProfileData.rejected, (state, action) => {
-        //     state.isError = true;
-        //     state.isLoading = false;
-        // });
+        // HANDLE SEND OR CANCEL FRIEND REQUEST SENDING
+        builder.addCase(sendOrCancelFriendRequest.pending, (state, action) => {
+            state.isLoading = true;
+        });
+        builder.addCase(sendOrCancelFriendRequest.fulfilled, (state, action) => {
+            state.isLoading = false;
+            state.isError = false;
+            state.userData = action?.payload;
+        });
+        builder.addCase(sendOrCancelFriendRequest.rejected, (state, action) => {
+            state.isError = true;
+            state.isLoading = false;
+        });
+
+
+        // HANDLE ACCEPTING, REJECTING FRIEND REQUEST OR UNFRIEND AN USER
+        builder.addCase(manageFriends.pending, (state, action) => {
+            state.isLoading = true;
+        });
+        builder.addCase(manageFriends.fulfilled, (state, action) => {
+            state.isLoading = false;
+            state.isError = false;
+            state.userData = action?.payload;
+        });
+        builder.addCase(manageFriends.rejected, (state, action) => {
+            state.isError = true;
+            state.isLoading = false;
+        });
     }
 });
 
