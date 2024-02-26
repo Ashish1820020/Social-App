@@ -103,3 +103,15 @@ export const manageFriends = createAsyncThunk("manageFriends", async (userId) =>
     throw error;
   }
 });
+
+
+export const getFriendsPageData = async () => {
+  try {
+    const response = await axios.get(`/api/v1/auth/friends`);
+    console.log(response.data);
+    return response?.data;
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+};

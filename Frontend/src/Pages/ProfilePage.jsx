@@ -19,6 +19,8 @@ const ProfilePage = () => {
     const [ isError, setIsError ] = useState(false);
     const dispatch = useDispatch();
 
+    console.log(userProfileData);
+
     const [coverImgFile, setCoverImgFile] = useState(null);
     const [profileImgFile, setProfileImgFile] = useState(null);
     const [previewProfileImg, setPreviewProfileImg] = useState(null);

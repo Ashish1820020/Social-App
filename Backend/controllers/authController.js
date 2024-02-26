@@ -374,4 +374,26 @@ const getUsers = async (req, res) => {
 
 
 
-module.exports = { registerUser, loginUser, logout, updateProfile, forgotPassword, verifyAuthToken, getUserProfileData, getUsers, sendOrCancelFriendRequest, acceptOrRejectFriendRequestOrUnfriendAnUser };
+const populateFriendsPageData = async (req, res) => {
+  try {
+    const loggedInUser = await UserModel.findById(req.user._id).populate({path: 'receivedFriendRequest', select: 'avatar _id name'});
+
+    const queryObject = {};
+
+    if(!loggedInUser)
+      return res.status(200).json({success: false, msg: 'User not found'});
+
+    const allUsers = await UserModel.find({}).select('avatar _id name')
+
+    return res.status(200).json({success: true, msg: 'Some users found', allUsers, receivedRequests: loggedInUser.receivedFriendRequest});
+    
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ success: false, massage: error});
+  }
+};
+
+
+
+module.exports = { registerUser, loginUser, logout, updateProfile, forgotPassword, verifyAuthToken, getUserProfileData, getUsers, 
+  sendOrCancelFriendRequest, acceptOrRejectFriendRequestOrUnfriendAnUser, populateFriendsPageData };
