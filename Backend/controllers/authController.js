@@ -93,7 +93,6 @@ const loginUser = async (req, res) => {
       return res.status(401).json({ success: false, massage: "Either Email or password is wrong" });
     }
 
-    console.log(user);
     sendToken(user, 201, res);
 
   } catch (error) {
@@ -260,6 +259,8 @@ const acceptOrRejectFriendRequestOrUnfriendAnUser = async (req, res) => {
     
     
     const { action } = req.query;
+
+    console.log(action);
     
     // accepted the friend request
     if(action === 'accepted'){
@@ -377,9 +378,7 @@ const getUsers = async (req, res) => {
 const populateFriendsPageData = async (req, res) => {
   try {
     const loggedInUser = await UserModel.findById(req.user._id).populate({path: 'receivedFriendRequest', select: 'avatar _id name'});
-
-    const queryObject = {};
-
+    
     if(!loggedInUser)
       return res.status(200).json({success: false, msg: 'User not found'});
 

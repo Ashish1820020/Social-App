@@ -4,6 +4,8 @@ import React, { useEffect, useState } from 'react'
 import { getFriendsPageData } from '../Store/api/authApi';
 import { all } from 'axios';
 import Spinner from '../Utils/Spinner';
+import FriendsRequestsComponent from '../Components/Friend/FriendsRequestsComponent';
+import PeopleMayKnowComponent from '../Components/Friend/PeopleMayKnowComponent';
 
 const Friends = () => {
 
@@ -18,7 +20,6 @@ const Friends = () => {
     const [ isError, setIsError ] = useState(false);
     // const [ userProfileData, setUserProfileData ] = useState(null);
 
-    console.log(isLoading);
     useEffect(() => {
 
         const fetchData = async () =>{
@@ -50,32 +51,9 @@ const Friends = () => {
 
             <div className="friends-page-right w-[80%] p-4">
                 <div className="friends-page-right-inside w-[100%] p-2">
-                    <Spinner isLoading={isLoading}>
-                        <div className="friend-requests h-[420px]">
-                            <h3 className='font-bold text-black text-[20px] text-lg mb-4'>Friend requests</h3>
-                            <div className="friend-requests-inside flex overflow-x-auto">
-                            {
-                                friendRequests?.map((elem) => {
-                                    return <FriendCard key={elem._id} {...elem} />
-                                })
-                            }
-                            </div>
-                        </div>
-                    </Spinner>
+                   <FriendsRequestsComponent friendRequests={friendRequests} isLoading={isLoading}/>
                     <hr className='text-[#ced0d4] h-2'/>
-                    
-                    <Spinner isLoading={isLoading}>
-                        <div className="friend-you-may-know h-[65%] p-2">
-                            <h3 className='font-bold text-lg mb-4 text-black'>People you may know</h3>
-                            <div className="friend-you-may-know-inside flex flex-wrap gap-y-2">   
-                            { 
-                                allUsers?.map((elem) => {
-                                    return <FriendCard key={elem._id} {...elem} />
-                                })
-                            }
-                            </div>
-                        </div>
-                    </Spinner>
+                   <PeopleMayKnowComponent allUsers={allUsers} isLoading={isLoading}/>
                 </div>
             </div>
         </div>

@@ -91,10 +91,9 @@ export const sendOrCancelFriendRequest = createAsyncThunk("sendOrCancelFriendReq
 });
 
 
-export const manageFriends = createAsyncThunk("manageFriends", async (userId) => {
-  console.log(`/api/v1/auth/friend-request/${userId}`);
+export const manageFriends = createAsyncThunk("manageFriends", async (obj) => {
   try {
-    const response = await axios.get(`/api/v1/auth/manage-friend/${userId}`);
+    const response = await axios.get(`/api/v1/auth/manage-friend/${obj.userId}?action=${obj.action}`);
     console.log(response.data.user);
     localStorage.setItem("userData", JSON.stringify(response.data.user));
     return response?.data?.user;

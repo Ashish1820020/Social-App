@@ -21,6 +21,8 @@ router.route('/auth/forgotpassword').patch(isAuthenticated, forgotPassword);
 
 router.route('/auth/friend-request/:id').get(isAuthenticated, sendOrCancelFriendRequest);
 
+router.route('/auth/manage-friend/:id').get(isAuthenticated, acceptOrRejectFriendRequestOrUnfriendAnUser);
+
 router.route('/auth/friends').get(isAuthenticated, populateFriendsPageData);
 
 module.exports = router;
