@@ -11,7 +11,7 @@ const RouterComponent = () => {
     <Routes>
         {
             routesArray.map((route) => {
-                const { component, authenticationRequires, path_url, redirectTo } = route;
+                const { component, authenticationRequires, path_url, redirectTo, subComponent } = route;
                 if(authenticationRequires){
                     return (
                         <Route 
@@ -23,7 +23,19 @@ const RouterComponent = () => {
                             :
                             <Navigate replace to={'/login-signup'}/>
                         }
-                        />
+                        >
+                            {
+                                subComponent?.map((subLinks) => {
+                                    return (
+                                        <Route
+                                        key={subLinks.link}
+                                        path={subLinks.link} 
+                                        element={<subLinks.component />}
+                                        />
+                                    )
+                                })
+                            }
+                        </Route>
                     )
                 }
                 if(isLoggedIn && isValidToken() && redirectTo === '/home'){

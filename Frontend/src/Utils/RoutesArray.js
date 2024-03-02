@@ -1,4 +1,5 @@
 import { Friends, HomePage, LoginPage, PageNotFoundPage, ProfilePage } from "../Pages";
+import { links } from "./FriendsLeftLinkArray";
 
 export const routesArray = [
 
@@ -25,7 +26,8 @@ export const routesArray = [
     {
         path_url: '/friends',
         component: Friends,
-        authenticationRequires:  true
+        authenticationRequires:  true,
+        subComponent: links
     },
 
     {
